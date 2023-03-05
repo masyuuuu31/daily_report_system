@@ -71,32 +71,27 @@ public class Employee {
     private String password;
 
     /**
-     * 管理者権限があるかどうか（一般:0、管理者:1）
+     * 管理者権限があるかどうか（一般：0、管理者：1）
      */
     @Column(name = JpaConst.EMP_COL_ADMIN_FLAG, nullable = false)
     private Integer adminFlag;
 
     /**
-     * 登録日時
+     *登録日時
      */
     @Column(name = JpaConst.EMP_COL_CREATED_AT, nullable = false)
     private LocalDateTime createdAt;
 
-    /*
+    /**
      * 更新日時
      */
     @Column(name = JpaConst.EMP_COL_UPDATED_AT, nullable = false)
     private LocalDateTime updatedAt;
 
-    /*
-     * 削除されたか従業員かどうか（現役:0、削除済み:1）
+    /**
+     * 削除された従業員かどうか（現役：0、削除済み：1）
      */
     @Column(name = JpaConst.EMP_COL_DELETE_FLAG, nullable = false)
     private Integer deleteFlag;
-
-
-
-
-
 
 }

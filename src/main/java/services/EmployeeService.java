@@ -11,11 +11,11 @@ import constants.JpaConst;
 import models.Employee;
 import models.validators.EmployeeValidator;
 import utils.EncryptUtil;
+
 /**
  * 従業員テーブルの操作に関わる処理を行うクラス
  */
-
-public class EmployeeService extends ServiceBase{
+public class EmployeeService extends ServiceBase {
 
     /**
      * 指定されたページ数の一覧画面に表示するデータを取得し、EmployeeViewのリストで返却する
@@ -60,11 +60,12 @@ public class EmployeeService extends ServiceBase{
                     .setParameter(JpaConst.JPQL_PARM_CODE, code)
                     .setParameter(JpaConst.JPQL_PARM_PASSWORD, pass)
                     .getSingleResult();
-        } catch (NoResultException ex) {
 
+        } catch (NoResultException ex) {
         }
 
         return EmployeeConverter.toView(e);
+
     }
 
     /**
@@ -112,11 +113,11 @@ public class EmployeeService extends ServiceBase{
         List<String> errors = EmployeeValidator.validate(this, ev, true, true);
 
         //バリデーションエラーがなければデータを登録する
-        if(errors.size() == 0) {
+        if (errors.size() == 0) {
             create(ev);
         }
 
-        //エラーを返却（エラーがなければ0件の空のリスト）
+        //エラーを返却（エラーがなければ0件の空リスト）
         return errors;
     }
 
@@ -132,7 +133,7 @@ public class EmployeeService extends ServiceBase{
         EmployeeView savedEmp = findOne(ev.getId());
 
         boolean validateCode = false;
-        if(!savedEmp.getCode().equals(ev.getCode())) {
+        if (!savedEmp.getCode().equals(ev.getCode())) {
             //社員番号を更新する場合
 
             //社員番号についてのバリデーションを行う
@@ -149,11 +150,12 @@ public class EmployeeService extends ServiceBase{
             validatePass = true;
 
             //変更後のパスワードをハッシュ化し設定する
-            savedEmp.setPassword(EncryptUtil.getPasswordEncrypt(ev.getPassword(), pepper));
+            savedEmp.setPassword(
+                    EncryptUtil.getPasswordEncrypt(ev.getPassword(), pepper));
         }
 
         savedEmp.setName(ev.getName()); //変更後の氏名を設定する
-        savedEmp.setAdminFlag(ev.getAdminFlag());//変更後の管理者フラグを設定する
+        savedEmp.setAdminFlag(ev.getAdminFlag()); //変更後の管理者フラグを設定する
 
         //更新日時に現在時刻を設定する
         LocalDateTime today = LocalDateTime.now();
@@ -163,11 +165,11 @@ public class EmployeeService extends ServiceBase{
         List<String> errors = EmployeeValidator.validate(this, savedEmp, validateCode, validatePass);
 
         //バリデーションエラーがなければデータを更新する
-        if(errors.size() == 0) {
+        if (errors.size() == 0) {
             update(savedEmp);
         }
 
-        //エラーを返却
+        //エラーを返却（エラーがなければ0件の空リスト）
         return errors;
     }
 
@@ -189,6 +191,7 @@ public class EmployeeService extends ServiceBase{
 
         //更新処理を行う
         update(savedEmp);
+
     }
 
     /**
@@ -196,15 +199,15 @@ public class EmployeeService extends ServiceBase{
      * @param code 社員番号
      * @param plainPass パスワード
      * @param pepper pepper文字列
-     * @return 認証結果を返却する(成功：true 失敗：false)
+     * @return 認証結果を返却す(成功:true 失敗:false)
      */
-    public boolean validateLogin(String code, String plainPass, String pepper) {
+    public Boolean validateLogin(String code, String plainPass, String pepper) {
 
         boolean isValidEmployee = false;
-        if(code != null && !code.equals("") && plainPass != null && !plainPass.equals("")) {
+        if (code != null && !code.equals("") && plainPass != null && !plainPass.equals("")) {
             EmployeeView ev = findOne(code, plainPass, pepper);
 
-            if(ev != null && ev.getId() != null) {
+            if (ev != null && ev.getId() != null) {
 
                 //データが取得できた場合、認証成功
                 isValidEmployee = true;
@@ -229,13 +232,14 @@ public class EmployeeService extends ServiceBase{
     /**
      * 従業員データを1件登録する
      * @param ev 従業員データ
-     * @return 登録結果(成功：true 失敗：false)
+     * @return 登録結果(成功:true 失敗:false)
      */
     private void create(EmployeeView ev) {
 
         em.getTransaction().begin();
         em.persist(EmployeeConverter.toModel(ev));
         em.getTransaction().commit();
+
     }
 
     /**
@@ -248,6 +252,7 @@ public class EmployeeService extends ServiceBase{
         Employee e = findOneInternal(ev.getId());
         EmployeeConverter.copyViewToModel(e, ev);
         em.getTransaction().commit();
+
     }
 
 }

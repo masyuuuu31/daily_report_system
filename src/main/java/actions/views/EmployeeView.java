@@ -38,12 +38,12 @@ public class EmployeeView {
     private String password;
 
     /**
-     * 管理者権限があるかどうか（一般:0、管理者:1）
+     * 管理者権限があるかどうか（一般：0、管理者：1）
      */
     private Integer adminFlag;
 
     /**
-     * 登録日時
+     *登録日時
      */
     private LocalDateTime createdAt;
 
@@ -53,7 +53,8 @@ public class EmployeeView {
     private LocalDateTime updatedAt;
 
     /**
-     * 削除された従業員かどうか（現役:0、削除済み:1）
+     * 削除された従業員かどうか（現役：0、削除済み：1）
      */
     private Integer deleteFlag;
+
 }

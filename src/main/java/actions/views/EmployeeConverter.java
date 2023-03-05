@@ -26,17 +26,17 @@ public class EmployeeConverter {
                 ev.getName(),
                 ev.getPassword(),
                 ev.getAdminFlag() == null
-                    ? null
-                    : ev.getAdminFlag() == AttributeConst.ROLE_ADMIN.getIntegerValue()
-                        ? JpaConst.ROLE_ADMIN
-                        : JpaConst.ROLE_GENERAL,
+                        ? null
+                        : ev.getAdminFlag() == AttributeConst.ROLE_ADMIN.getIntegerValue()
+                                ? JpaConst.ROLE_ADMIN
+                                : JpaConst.ROLE_GENERAL,
                 ev.getCreatedAt(),
                 ev.getUpdatedAt(),
                 ev.getDeleteFlag() == null
-                    ? null
-                    : ev.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
-                        ? JpaConst.EMP_DEL_TRUE
-                        : JpaConst.EMP_DEL_FALSE);
+                        ? null
+                        : ev.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                                ? JpaConst.EMP_DEL_TRUE
+                                : JpaConst.EMP_DEL_FALSE);
     }
 
     /**
@@ -56,17 +56,17 @@ public class EmployeeConverter {
                 e.getName(),
                 e.getPassword(),
                 e.getAdminFlag() == null
-                    ? null
-                    : e.getAdminFlag() == JpaConst.ROLE_ADMIN
-                        ? AttributeConst.ROLE_ADMIN.getIntegerValue()
-                        : AttributeConst.ROLE_GENERAL.getIntegerValue(),
+                        ? null
+                        : e.getAdminFlag() == JpaConst.ROLE_ADMIN
+                                ? AttributeConst.ROLE_ADMIN.getIntegerValue()
+                                : AttributeConst.ROLE_GENERAL.getIntegerValue(),
                 e.getCreatedAt(),
                 e.getUpdatedAt(),
                 e.getDeleteFlag() == null
-                    ? null
-                    : e.getDeleteFlag() == JpaConst.EMP_DEL_TRUE
-                        ? AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
-                        : AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+                        ? null
+                        : e.getDeleteFlag() == JpaConst.EMP_DEL_TRUE
+                                ? AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                                : AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
     }
 
     /**
@@ -86,8 +86,8 @@ public class EmployeeConverter {
 
     /**
      * Viewモデルの全フィールドの内容をDTOモデルのフィールドにコピーする
-     * @param e DTOモデル（コピー先）
-     * @param ev Viewモデル（コピー元）
+     * @param e DTOモデル(コピー先)
+     * @param ev Viewモデル(コピー元)
      */
     public static void copyViewToModel(Employee e, EmployeeView ev) {
         e.setId(ev.getId());
@@ -98,5 +98,7 @@ public class EmployeeConverter {
         e.setCreatedAt(ev.getCreatedAt());
         e.setUpdatedAt(ev.getUpdatedAt());
         e.setDeleteFlag(ev.getDeleteFlag());
+
     }
+
 }
