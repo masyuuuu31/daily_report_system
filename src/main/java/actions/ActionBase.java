@@ -236,6 +236,7 @@ public abstract class ActionBase {
      * @param key パラメータ名
      * @return パラメータの値
      */
+    @SuppressWarnings("unchecked")
     protected <R> R getContextScope(PropertyConst key) {
         return (R) context.getAttribute(key.getValue());
     }
