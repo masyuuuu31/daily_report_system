@@ -252,7 +252,6 @@ public class EmployeeService extends ServiceBase {
         Employee e = findOneInternal(ev.getId());
         EmployeeConverter.copyViewToModel(e, ev);
         em.getTransaction().commit();
-
     }
 
 }
