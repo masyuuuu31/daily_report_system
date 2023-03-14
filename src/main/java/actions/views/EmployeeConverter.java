@@ -20,11 +20,75 @@ public class EmployeeConverter {
      */
     public static Employee toModel(EmployeeView ev) {
 
+        Integer departmentValue;
+        Integer divisionValue;
+        Integer positionValue;
+
+        switch (ev.getDepartment()) {
+
+        case 1:
+            departmentValue = JpaConst.DEP_SALES;
+
+        case 2:
+            departmentValue = JpaConst.DEP_HUMAN_RESOURCES;
+
+        case 3:
+            departmentValue = JpaConst.DEP_INFORMATION_SYSTEMS;
+
+        case 4:
+            departmentValue = JpaConst.DEP_GENERAL;
+
+        case 5:
+            departmentValue = JpaConst.DEP_ACCOUNTING;
+
+        default:
+            departmentValue = null;
+        }
+
+        switch (ev.getDivision()) {
+
+        case 1:
+            divisionValue = JpaConst.DEP_DIV_FIRST;
+
+        case 2:
+            divisionValue = JpaConst.DEP_DIV_SECOND;
+
+        case 3:
+            divisionValue = JpaConst.DEP_DIV_THIRD;
+
+        case 4:
+            divisionValue = JpaConst.DEP_DIV_FOURTH;
+
+        case 5:
+            divisionValue = JpaConst.DEP_DIV_FIFTH;
+
+        default:
+            divisionValue = null;
+        }
+
+        switch (ev.getPosition()) {
+
+        case 1:
+            positionValue = JpaConst.DEP_POS_NORMAL;
+
+        case 2:
+            positionValue = JpaConst.DEP_POS_MANAGER;
+
+        case 3:
+            positionValue = JpaConst.DEP_POS_GENERAL_MANAGER;
+
+        default:
+            positionValue = null;
+        }
+
         return new Employee(
                 ev.getId(),
                 ev.getCode(),
                 ev.getName(),
                 ev.getPassword(),
+                departmentValue,
+                divisionValue,
+                positionValue,
                 ev.getAdminFlag() == null
                         ? null
                         : ev.getAdminFlag() == AttributeConst.ROLE_ADMIN.getIntegerValue()
@@ -50,11 +114,75 @@ public class EmployeeConverter {
             return null;
         }
 
+        Integer departmentValue;
+        Integer divisionValue;
+        Integer positionValue;
+
+        switch (e.getDepartment()) {
+
+        case 1:
+            departmentValue = AttributeConst.DEP_SALES.getIntegerValue();
+
+        case 2:
+            departmentValue = AttributeConst.DEP_HUMAN_RESOURCES.getIntegerValue();
+
+        case 3:
+            departmentValue = AttributeConst.DEP_INFORMATION_SYSTEMS.getIntegerValue();
+
+        case 4:
+            departmentValue = AttributeConst.DEP_GENERAL.getIntegerValue();
+
+        case 5:
+            departmentValue = AttributeConst.DEP_ACCOUNTING.getIntegerValue();
+
+        default:
+            departmentValue = null;
+        }
+
+        switch (e.getDivision()) {
+
+        case 1:
+            divisionValue = AttributeConst.DEP_DIV_FIRST.getIntegerValue();
+
+        case 2:
+            divisionValue = AttributeConst.DEP_DIV_SECOND.getIntegerValue();
+
+        case 3:
+            divisionValue = AttributeConst.DEP_DIV_THIRD.getIntegerValue();
+
+        case 4:
+            divisionValue = AttributeConst.DEP_DIV_FOURTH.getIntegerValue();
+
+        case 5:
+            divisionValue = AttributeConst.DEP_DIV_FIFTH.getIntegerValue();
+
+        default:
+            divisionValue = null;
+        }
+
+        switch (e.getPosition()) {
+
+        case 1:
+            positionValue = AttributeConst.DEP_POS_NORMAL.getIntegerValue();
+
+        case 2:
+            positionValue = AttributeConst.DEP_POS_MANAGER.getIntegerValue();
+
+        case 3:
+            positionValue = AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue();
+
+        default:
+            positionValue = null;
+        }
+
         return new EmployeeView(
                 e.getId(),
                 e.getCode(),
                 e.getName(),
                 e.getPassword(),
+                departmentValue,
+                divisionValue,
+                positionValue,
                 e.getAdminFlag() == null
                         ? null
                         : e.getAdminFlag() == JpaConst.ROLE_ADMIN
@@ -94,6 +222,9 @@ public class EmployeeConverter {
         e.setCode(ev.getCode());
         e.setName(ev.getName());
         e.setPassword(ev.getPassword());
+        e.setDepartment(ev.getDepartment());
+        e.setDivision(ev.getDivision());
+        e.setPosition(ev.getPosition());
         e.setAdminFlag(ev.getAdminFlag());
         e.setCreatedAt(ev.getCreatedAt());
         e.setUpdatedAt(ev.getUpdatedAt());

@@ -19,11 +19,34 @@ public interface JpaConst {
     String EMP_COL_CODE = "code"; //社員番号
     String EMP_COL_NAME = "name"; //氏名
     String EMP_COL_PASS = "password"; //パスワード
+    String EMP_COL_DEP = "department"; //所属部署
+    String EMP_COL_DIV = "division"; //所属グループ・課
+    String EMP_COL_POSITION = "position"; //役職
     String EMP_COL_ADMIN_FLAG = "admin_flag"; //管理者権限
     String EMP_COL_CREATED_AT = "created_at"; //登録日時
     String EMP_COL_UPDATED_AT = "updated_at"; //更新日時
     String EMP_COL_DELETE_FLAG = "delete_flag"; //削除フラグ
 
+    //部署コード
+    int DEP_SALES =1; //営業部
+    int DEP_HUMAN_RESOURCES = 2; //人事部
+    int DEP_INFORMATION_SYSTEMS = 3; //情報システム部
+    int DEP_GENERAL = 4; //総務部
+    int DEP_ACCOUNTING = 5; //経理部
+
+    //所属グループコード
+    int DEP_DIV_FIRST = 1; //グループ1
+    int DEP_DIV_SECOND = 2; //グループ2
+    int DEP_DIV_THIRD = 3; //グループ3
+    int DEP_DIV_FOURTH = 4; //グループ4
+    int DEP_DIV_FIFTH = 5; //グループ5
+
+    //役職コード
+    int DEP_POS_NORMAL = 1;
+    int DEP_POS_MANAGER = 2;
+    int DEP_POS_GENERAL_MANAGER = 3;
+
+    //フラグ(0, 1)
     int ROLE_ADMIN = 1; //管理者権限ON(管理者)
     int ROLE_GENERAL = 0; //管理者権限OFF(一般)
     int EMP_DEL_TRUE = 1; //削除フラグON(削除済み)
@@ -37,8 +60,13 @@ public interface JpaConst {
     String REP_COL_REP_DATE = "report_date"; //いつの日報かを示す日付
     String REP_COL_TITLE = "title"; //日報のタイトル
     String REP_COL_CONTENT = "content"; //日報の内容
+    String REP_COL_APPROVAL = "approval"; //承認状況
     String REP_COL_CREATED_AT = "created_at"; //登録日時
     String REP_COL_UPDATED_AT = "updated_at"; //更新日時
+
+    //申請フラグ
+    int REP_APPROVAL_TRUE = 1; //承認済み
+    int REP_APPROVAL_FALSE = 0; //申請中
 
     //Entity名
     String ENTITY_EMP = "employee"; //従業員
@@ -48,6 +76,8 @@ public interface JpaConst {
     String JPQL_PARM_CODE = "code"; //社員番号
     String JPQL_PARM_PASSWORD = "password"; //パスワード
     String JPQL_PARM_EMPLOYEE = "employee"; //従業員
+    String JPQL_PARM_DEPARTMENT = "department"; //部署
+    String JPQL_PARM_DIVISION = "division"; //所属グループ
 
     //NamedQueryの nameとquery
     //全ての従業員をidの降順に取得する
@@ -62,6 +92,12 @@ public interface JpaConst {
     //指定した社員番号を保持する従業員の件数を取得する
     String Q_EMP_COUNT_REGISTERED_BY_CODE = ENTITY_EMP + ".countRegisteredByCode";
     String Q_EMP_COUNT_REGISTERED_BY_CODE_DEF = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :" + JPQL_PARM_CODE;
+    //指定した部署の従業員を取得する
+    String Q_EMP_GET_DEP_ALL = ENTITY_EMP + ".getDepAll";
+    String Q_EMP_GET_DEP_ALL_DEF = "SELECT e FROM Employee AS e WHERE e.department = :" + JPQL_PARM_DEPARTMENT + "ORDER BY e.id DESC";
+    //指定したグループの従業員を取得する
+    String Q_EMP_GET_DIV_ALL = ENTITY_EMP + ".getDivAll";
+    String Q_EMP_GET_DIV_ALL_DEF = "SELECT e FROM Employee AS e WHERE e.division = :" + JPQL_PARM_DIVISION + "ORDER BY e.id DESC";
     //全ての日報をidの降順に取得する
     String Q_REP_GET_ALL = ENTITY_REP + ".getAll";
     String Q_REP_GET_ALL_DEF = "SELECT r FROM Report AS r ORDER BY r.id DESC";
@@ -74,5 +110,4 @@ public interface JpaConst {
     //指定した従業員が作成した日報の件数を取得する
     String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
     String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
-
 }

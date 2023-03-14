@@ -38,6 +38,21 @@ public class EmployeeView {
     private String password;
 
     /**
+     * 所属部署
+     */
+    private Integer department;
+
+    /**
+     * 部署内での所属グループ
+     */
+    private Integer division;
+
+    /**
+     * 役職
+     */
+    private Integer position;
+
+    /**
      * 管理者権限があるかどうか（一般：0、管理者：1）
      */
     private Integer adminFlag;

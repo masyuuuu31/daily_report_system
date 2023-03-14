@@ -16,6 +16,11 @@ public enum MessageConst {
     I_UPDATED("更新が完了しました。"),
     I_DELETED("削除が完了しました。"),
 
+    //承認
+    I_APPLIED("申請しました。"),
+    IS_APPROVED("承認されました。"),
+    NOT_APPROVED("再提出を要求されました。"),
+
     //バリデーション
     E_NONAME("氏名を入力してください。"),
     E_NOPASSWORD("パスワードを入力してください。"),

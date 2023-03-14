@@ -34,7 +34,13 @@ import lombok.Setter;
             query = JpaConst.Q_EMP_COUNT_REGISTERED_BY_CODE_DEF),
     @NamedQuery(
             name = JpaConst.Q_EMP_GET_BY_CODE_AND_PASS,
-            query = JpaConst.Q_EMP_GET_BY_CODE_AND_PASS_DEF)
+            query = JpaConst.Q_EMP_GET_BY_CODE_AND_PASS_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_EMP_GET_DEP_ALL,
+            query = JpaConst.Q_EMP_GET_DEP_ALL_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_EMP_GET_DIV_ALL,
+            query = JpaConst.Q_EMP_GET_DIV_ALL_DEF),
 })
 
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)
@@ -69,6 +75,25 @@ public class Employee {
      */
     @Column(name = JpaConst.EMP_COL_PASS, length = 64, nullable = false)
     private String password;
+
+    /**
+     * 所属部署
+     */
+    @Column(name = JpaConst.EMP_COL_DEP, nullable = false)
+    private Integer department;
+
+    /**
+     * 部署内での所属グループ
+     */
+    @Column(name = JpaConst.EMP_COL_DIV, nullable = false)
+    private Integer division;
+
+    /**
+     * 役職
+     */
+    @Column(name = JpaConst.EMP_COL_POSITION, nullable = false)
+    private Integer position;
+
 
     /**
      * 管理者権限があるかどうか（一般：0、管理者：1）
