@@ -87,7 +87,7 @@ public class Report {
     private String content;
 
     /**
-     * 承認されているかどうか（申請中 : 0、承認済み : 1）
+     * 承認されているかどうか（申請中 : 0、承認済み : 1、承認拒否 : 2）
      */
     @Column(name = JpaConst.REP_COL_APPROVAL, nullable = false)
     private Integer approval;

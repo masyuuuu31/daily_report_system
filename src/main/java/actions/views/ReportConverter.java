@@ -20,20 +20,39 @@ public class ReportConverter {
      * @return Reportのインスタンス
      */
     public static Report toModel(ReportView rv) {
+
+        Integer approvalValue = null;
+
+        if (rv.getApproval() != null) {
+
+            switch (rv.getApproval()) {
+
+            case 0:
+                approvalValue = JpaConst.REP_APPLICATION;
+                break;
+
+            case 1:
+                approvalValue = JpaConst.REP_APPROVAL_DONE;
+                break;
+
+            case 2:
+                approvalValue = JpaConst.REP_APPROVAL_REJECT;
+                break;
+
+            default:
+                System.out.println("値を取得できませんでした。"); //デバック用出力
+            }
+        }
+
         return new Report(
                 rv.getId(),
                 EmployeeConverter.toModel(rv.getEmployee()),
                 rv.getReportDate(),
                 rv.getTitle(),
                 rv.getContent(),
-                rv.getApproval() == null
-                    ? null
-                    : rv.getApproval() == AttributeConst.REP_APPROVAL_TRUE.getIntegerValue()
-                        ? JpaConst.REP_APPROVAL_TRUE
-                        : JpaConst.REP_APPROVAL_FALSE,
+                approvalValue,
                 rv.getCreatedAt(),
-                rv.getUpdatedAt()
-                );
+                rv.getUpdatedAt());
     }
 
     /**
@@ -47,20 +66,38 @@ public class ReportConverter {
             return null;
         }
 
+        Integer approvalValue = null;
+
+        if (r.getApproval() != null) {
+
+            switch (r.getApproval()) {
+
+            case 0:
+                approvalValue = AttributeConst.REP_APPLICATION.getIntegerValue();
+                break;
+
+            case 1:
+                approvalValue = AttributeConst.REP_APPROVAL_DONE.getIntegerValue();
+                break;
+
+            case 2:
+                approvalValue = AttributeConst.REP_APPROVAL_REJECT.getIntegerValue();
+                break;
+
+            default:
+                System.out.println("値を取得できませんでした。"); //デバック用出力
+            }
+        }
+
         return new ReportView(
                 r.getId(),
                 EmployeeConverter.toView(r.getEmployee()),
                 r.getReportDate(),
                 r.getTitle(),
                 r.getContent(),
-                r.getApproval() == null
-                    ? null
-                    : r.getApproval() == JpaConst.REP_APPROVAL_TRUE
-                        ? AttributeConst.REP_APPROVAL_TRUE.getIntegerValue()
-                        : AttributeConst.REP_APPROVAL_FALSE.getIntegerValue(),
+                approvalValue,
                 r.getCreatedAt(),
-                r.getUpdatedAt()
-                );
+                r.getUpdatedAt());
     }
 
     /**

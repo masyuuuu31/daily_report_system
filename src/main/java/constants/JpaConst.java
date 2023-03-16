@@ -34,17 +34,18 @@ public interface JpaConst {
     int DEP_GENERAL = 4; //総務部
     int DEP_ACCOUNTING = 5; //経理部
 
-    //所属グループコード
-    int DEP_DIV_FIRST = 1; //グループ1
-    int DEP_DIV_SECOND = 2; //グループ2
-    int DEP_DIV_THIRD = 3; //グループ3
-    int DEP_DIV_FOURTH = 4; //グループ4
-    int DEP_DIV_FIFTH = 5; //グループ5
+    //所属ユニットコード
+    int DEP_DIV_FIRST = 1; //第1ユニット
+    int DEP_DIV_SECOND = 2; //第2ユニット
+    int DEP_DIV_THIRD = 3; //第3ユニット
+    int DEP_DIV_FOURTH = 4; //第4ユニット
+    int DEP_DIV_FIFTH = 5; //第5ユニット
 
     //役職コード
-    int DEP_POS_NORMAL = 1;
-    int DEP_POS_MANAGER = 2;
-    int DEP_POS_GENERAL_MANAGER = 3;
+    int DEP_POS_NORMAL = 1; //一般社員
+    int DEP_POS_CHIEF = 2; //主任
+    int DEP_POS_MANAGER = 3; //課長
+    int DEP_POS_GENERAL_MANAGER = 4; //部長
 
     //フラグ(0, 1)
     int ROLE_ADMIN = 1; //管理者権限ON(管理者)
@@ -65,8 +66,9 @@ public interface JpaConst {
     String REP_COL_UPDATED_AT = "updated_at"; //更新日時
 
     //申請フラグ
-    int REP_APPROVAL_TRUE = 1; //承認済み
-    int REP_APPROVAL_FALSE = 0; //申請中
+    int REP_APPLICATION = 0; //申請中
+    int REP_APPROVAL_DONE = 1; //承認済み
+    int REP_APPROVAL_REJECT = 2; //承認拒絶
 
     //Entity名
     String ENTITY_EMP = "employee"; //従業員
@@ -92,12 +94,6 @@ public interface JpaConst {
     //指定した社員番号を保持する従業員の件数を取得する
     String Q_EMP_COUNT_REGISTERED_BY_CODE = ENTITY_EMP + ".countRegisteredByCode";
     String Q_EMP_COUNT_REGISTERED_BY_CODE_DEF = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :" + JPQL_PARM_CODE;
-    //指定した部署の従業員を取得する
-    String Q_EMP_GET_DEP_ALL = ENTITY_EMP + ".getDepAll";
-    String Q_EMP_GET_DEP_ALL_DEF = "SELECT e FROM Employee AS e WHERE e.department = :" + JPQL_PARM_DEPARTMENT + "ORDER BY e.id DESC";
-    //指定したグループの従業員を取得する
-    String Q_EMP_GET_DIV_ALL = ENTITY_EMP + ".getDivAll";
-    String Q_EMP_GET_DIV_ALL_DEF = "SELECT e FROM Employee AS e WHERE e.division = :" + JPQL_PARM_DIVISION + "ORDER BY e.id DESC";
     //全ての日報をidの降順に取得する
     String Q_REP_GET_ALL = ENTITY_REP + ".getAll";
     String Q_REP_GET_ALL_DEF = "SELECT r FROM Report AS r ORDER BY r.id DESC";

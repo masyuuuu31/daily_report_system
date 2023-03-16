@@ -43,7 +43,7 @@ public enum AttributeConst {
     DEP_GENERAL(4),
     DEP_ACCOUNTING(5),
 
-    //所属グループ
+    //所属ユニット
     DEP_DIV_FIRST(1),
     DEP_DIV_SECOND(2),
     DEP_DIV_THIRD(3),
@@ -52,8 +52,9 @@ public enum AttributeConst {
 
     //役職
     DEP_POS_NORMAL(1),
-    DEP_POS_MANAGER(2),
-    DEP_POS_GENERAL_MANAGER(3),
+    DEP_POS_CHIEF(2),
+    DEP_POS_MANAGER(3),
+    DEP_POS_GENERAL_MANAGER(4),
 
     //管理者フラグ
     ROLE_ADMIN(1),
@@ -64,8 +65,9 @@ public enum AttributeConst {
     DEL_FLAG_FALSE(0),
 
     //承認フラグ
-    REP_APPROVAL_TRUE(1),
-    REP_APPROVAL_FALSE(0),
+    REP_APPLICATION(0),
+    REP_APPROVAL_DONE(1),
+    REP_APPROVAL_REJECT(2),
 
     //日報管理
     REPORT("report"),
