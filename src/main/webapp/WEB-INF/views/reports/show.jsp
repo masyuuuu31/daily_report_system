@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="constants.ForwardConst" %>
+<%@ page import="constants.AttributeConst"%>
 
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
@@ -25,6 +26,15 @@
             <tr>
                 <th>内容</th>
                 <td><pre><c:out value="${report.content}" /></pre></td>
+            </tr>
+            <tr>
+                <th>承認状況</th>
+                <td><c:choose>
+                <c:when test="${report.approval == AttributeConst.REP_APPLICATION.getIntegerValue()}">申請中</c:when>
+                <c:when test="${report.approval == AttributeConst.REP_APPROVAL_DONE.getIntegerValue()}">承認済み</c:when>
+                <c:when test="${report.approval == AttributeConst.REP_APPROVAL_REJECT.getIntegerValue()}">要再提出</c:when>
+                </c:choose>
+                </td>
             </tr>
             <tr>
                 <th>登録日時</th>
