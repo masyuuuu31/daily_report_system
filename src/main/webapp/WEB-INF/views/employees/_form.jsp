@@ -108,4 +108,4 @@
     value="${employee.id}" />
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}"
     value="${_token}" />
-<button type="submit">投稿</button>
+<button type="submit" class="btn btn-light btn-outline-dark">投稿</button>

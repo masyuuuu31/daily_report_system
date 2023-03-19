@@ -12,6 +12,7 @@ public interface JpaConst {
     //データ取得件数の最大値
     int ROW_PER_PAGE = 15; //1ページに表示するレコードの数
 
+
     //従業員テーブル
     String TABLE_EMP = "employees"; //テーブル名
     //従業員テーブルカラム
@@ -82,9 +83,10 @@ public interface JpaConst {
     String JPQL_PARM_DIVISION = "division"; //所属グループ
 
     //NamedQueryの nameとquery
+    //従業員についてのNamedQuery
     //全ての従業員をidの降順に取得する
-    String Q_EMP_GET_ALL = ENTITY_EMP + ".getAll"; //name
-    String Q_EMP_GET_ALL_DEF = "SELECT e FROM Employee AS e ORDER BY e.id DESC"; //query
+    String Q_EMP_GET_ALL = ENTITY_EMP + ".getAll";
+    String Q_EMP_GET_ALL_DEF = "SELECT e FROM Employee AS e ORDER BY e.id DESC";
     //全ての従業員の件数を取得する
     String Q_EMP_COUNT = ENTITY_EMP + ".count";
     String Q_EMP_COUNT_DEF = "SELECT COUNT(e) FROM Employee AS e";
@@ -94,16 +96,28 @@ public interface JpaConst {
     //指定した社員番号を保持する従業員の件数を取得する
     String Q_EMP_COUNT_REGISTERED_BY_CODE = ENTITY_EMP + ".countRegisteredByCode";
     String Q_EMP_COUNT_REGISTERED_BY_CODE_DEF = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :" + JPQL_PARM_CODE;
-    //全ての日報をidの降順に取得する
+    //承認者の一覧を取得する
+    String Q_EMP_GET_ALL_SUPERIOR = ENTITY_EMP + ".getAllSuperior";
+    String Q_EMP_GET_ALL_SUPERIOR_DEF = "SELECT e FROM Employee AS e WHERE e.position > 1 ORDER BY e.id DESC";
+    //部長のみ
+    String Q_EMP_GET_ALL_GM = ENTITY_EMP + ".getAllGM";
+    String Q_EMP_GET_ALL_GM_DEF = "SELECT e FROM Employee AS e WHERE e.position = 4 ORDER BY e.id DESC";
+    //課長以上
+    String Q_EMP_GET_ALL_GM_AND_MANAGER = ENTITY_EMP + ".getAllGMAndManager";
+    String Q_EMP_GET_ALL_GM_AND_MANAGER_DEF = "SELECT e FROM Employee AS e WHERE e.position > 2 ORDER BY e.id DESC";
+    //日報についてのNamedQuery
+    //承認済みの全ての日報をidの降順に取得する
     String Q_REP_GET_ALL = ENTITY_REP + ".getAll";
-    String Q_REP_GET_ALL_DEF = "SELECT r FROM Report AS r ORDER BY r.id DESC";
-    //全ての日報の件数を取得する
+    String Q_REP_GET_ALL_DEF = "SELECT r FROM Report AS r WHERE r.approval = 1 ORDER BY r.id DESC";
+    //承認済みの全ての日報の件数を取得する
     String Q_REP_COUNT = ENTITY_REP + ".count";
-    String Q_REP_COUNT_DEF = "SELECT COUNT(r) FROM Report AS r";
+    String Q_REP_COUNT_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.approval = 1";
     //指定した従業員が作成した日報を全件idの降順で取得する
     String Q_REP_GET_ALL_MINE = ENTITY_REP + ".getAllMine";
     String Q_REP_GET_ALL_MINE_DEF = "SELECT r FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE + " ORDER BY r.id DESC";
     //指定した従業員が作成した日報の件数を取得する
     String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
     String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
+
+
 }

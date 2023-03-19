@@ -36,6 +36,9 @@ public enum AttributeConst {
     EMP_POSITION("position"),
     EMP_ADMIN_FLG("admin_flag"),
 
+    //承認者
+    EMPLOYEE_SUPERIOR("superior_list"),
+
     //部署名
     DEP_SALES(1),
     DEP_HUMAN_RESOURCES(2),

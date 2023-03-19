@@ -12,6 +12,7 @@ import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
+import services.EmployeeService;
 import services.ReportService;
 
 /**
@@ -80,9 +81,17 @@ public class ReportAction extends ActionBase{
         rv.setReportDate(LocalDate.now());
         putRequestScope(AttributeConst.REPORT, rv); //日付のみ設定済みの日報インスタンス
 
+        //セッションからログイン中の従業員情報を取得
+        EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+
+        //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
+        if (ev.getPosition() != 4) {
+            List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition());
+            putRequestScope(AttributeConst.EMPLOYEE_SUPERIOR, superiorList);
+        }
+
         //新規登録画面を表示
         forward(ForwardConst.FW_REP_NEW);
-
     }
 
     /**

@@ -222,6 +222,37 @@ public class EmployeeService extends ServiceBase {
     }
 
     /**
+     * 承認者の一覧を表示する
+     * @param ログイン中の従業員の役職
+     * @return 役職が上長の従業員テーブルのデータリスト
+     */
+    public List<EmployeeView> getSuperiorEmp(int position) {
+
+        List<Employee> employees = null;
+
+
+        switch (position) {
+
+        case 1:
+            employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_SUPERIOR, Employee.class)
+            .getResultList();
+            break;
+
+        case 2:
+            employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_GM_AND_MANAGER, Employee.class)
+            .getResultList();
+            break;
+
+        case 3:
+            employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_GM, Employee.class)
+            .getResultList();
+        }
+
+
+        return EmployeeConverter.toViewList(employees);
+    }
+
+    /**
      * idを条件にデータを1件取得し、Employeeのインスタンスで返却する
      * @param id
      * @return 取得データのインスタンス
