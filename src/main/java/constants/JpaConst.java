@@ -69,11 +69,26 @@ public interface JpaConst {
     //申請フラグ
     int REP_APPLICATION = 0; //申請中
     int REP_APPROVAL_DONE = 1; //承認済み
-    int REP_APPROVAL_REJECT = 2; //承認拒絶
+    int REP_APPROVAL_REJECT = 2; //承認拒否
+
+    //申請テーブル
+    String TABLE_PET = "petitions"; //テーブル名
+    //申請テーブルカラム
+    String PET_COL_ID = "id"; //id
+    String PET_COL_SEND_TO = "send_to"; //承認者
+    String PET_COL_SEND_FROM = "send_from"; //申請者
+    String PET_COL_REP = "report_id"; //申請日報データ
+    String PET_COL_READ = "read"; //既読状況
+    String PET_COL_CREATED_AT = "created_at"; //登録日時
+    String PET_COL_UPDATED_AT = "updated_at"; //更新日時
+
+    int PET_READ_TRUE = 1; //既読
+    int PET_READ_FALSE = 0; //未読
 
     //Entity名
     String ENTITY_EMP = "employee"; //従業員
     String ENTITY_REP = "report"; //日報
+    String ENTITY_PET = "petition"; //申請
 
     //JPQL内パラメータ
     String JPQL_PARM_CODE = "code"; //社員番号
@@ -118,6 +133,11 @@ public interface JpaConst {
     //指定した従業員が作成した日報の件数を取得する
     String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
     String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
-
+    //承認依頼中の日報データを表示する
+    String Q_PET_GET_ALL = ENTITY_PET + ".getAll";
+    String Q_PET_GET_ALL_DEF = "SELECT p FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + "AND (p.report.approval = 0 OR p.report.approval = 1) ORDER BY p.id DESC";
+    //承認依頼中の日報件数を取得する
+    String Q_PET_COUNT_ALL = ENTITY_PET + ".countAll";
+    String Q_PET_COUNT_ALL_DEF = "SELECT COUNT(p) FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + "AND (p.report.approval = 0 OR p.report.approval = 1)";
 
 }

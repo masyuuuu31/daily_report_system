@@ -80,7 +80,20 @@ public enum AttributeConst {
     REP_DATE("report_date"),
     REP_TITLE("title"),
     REP_CONTENT("content_msg"),
-    REP_APPROVAL("approval");
+    REP_APPROVAL("approval"),
+
+    //申請管理
+    PETITION("petition"),
+    PETITIONS("petitions"),
+    PET_ID("petition_id"),
+    PET_TO("send_to"),
+    PET_FROM("send_from"),
+    PET_REP("report_id"),
+    PET_READ("read"),
+
+    //既読状況
+    PET_READ_TRUE(1),
+    PET_READ_FALSE(0);
 
     private final String text;
     private final Integer i;
