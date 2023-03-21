@@ -85,7 +85,7 @@ public class ReportAction extends ActionBase{
         EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
 
         //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
-        if (ev.getPosition() != 4) {
+        if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
             List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition());
             putRequestScope(AttributeConst.EMPLOYEE_SUPERIOR, superiorList);
         }

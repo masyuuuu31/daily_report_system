@@ -90,6 +90,7 @@ public enum AttributeConst {
     PET_FROM("send_from"),
     PET_REP("report_id"),
     PET_READ("read"),
+    PET_COUNT("petitions_count"),
 
     //既読状況
     PET_READ_TRUE(1),
