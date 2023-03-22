@@ -123,7 +123,7 @@ public class ReportAction extends ActionBase{
                     day,
                     getRequestParam(AttributeConst.REP_TITLE),
                     getRequestParam(AttributeConst.REP_CONTENT),
-                    AttributeConst.REP_APPLICATION.getIntegerValue(), //承認状況の初期値は【申請中】
+                    null,
                     null,
                     null);
 

@@ -7,6 +7,7 @@ import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
+import constants.AttributeConst;
 import constants.JpaConst;
 import models.Report;
 import models.validators.ReportValidator;
@@ -89,6 +90,13 @@ public class ReportService extends ServiceBase {
     public List<String> create(ReportView rv) {
         List<String> errors = ReportValidator.validate(rv);
         if (errors.size() == 0) {
+
+            if (rv.getEmployee().getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
+                rv.setApproval(AttributeConst.REP_APPLICATION.getIntegerValue()); //役職が部長以外の場合、申請中に設定
+            } else {
+                rv.setApproval(AttributeConst.REP_APPROVAL_DONE.getIntegerValue()); //役職が役職が部長の場合、承認済みに設定
+            }
+
             LocalDateTime ldt = LocalDateTime.now();
             rv.setCreatedAt(ldt);
             rv.setUpdatedAt(ldt);
