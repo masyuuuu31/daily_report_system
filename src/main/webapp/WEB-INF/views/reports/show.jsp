@@ -27,6 +27,7 @@
                 <th>内容</th>
                 <td><pre><c:out value="${report.content}" /></pre></td>
             </tr>
+            <c:if test="${login_employee.position != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()}">
             <tr>
                 <th>承認状況</th>
                 <td><c:choose>
@@ -36,6 +37,7 @@
                 </c:choose>
                 </td>
             </tr>
+            </c:if>
             <tr>
                 <th>登録日時</th>
                 <fmt:parseDate value="${report.createdAt}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="createDay" type="date"/>
