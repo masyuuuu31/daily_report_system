@@ -69,10 +69,10 @@
                     <div class="modal-body">
 
                         <select class="form-select form-select-sm"
-                            aria-label=".form-select-sm example">
+                            aria-label=".form-select-sm example" name="${AttributeConst.EMPLOYEE_SUPERIOR.getValue()}" id="${AttributeConst.EMPLOYEE_SUPERIOR.getValue()}">
                             <option selected>承認者を選択してください</option>
                             <c:forEach var="superior" items="${superior_list}">
-                            <option>${superior.name}</option>
+                            <option value="${superior.id}">${superior.name}</option>
                             </c:forEach>
                         </select>
 

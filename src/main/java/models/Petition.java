@@ -72,8 +72,8 @@ public class Petition {
     /**
      * 既読状況（0 : 未読、1 : 既読）
      */
-    @Column(name = JpaConst.PET_COL_READ, nullable = false)
-    private Integer read;
+    @Column(name = JpaConst.PET_COL_READ_STATUS, nullable = false)
+    private Integer readStatus;
 
     /**
      * 登録日時

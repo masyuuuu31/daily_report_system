@@ -7,9 +7,11 @@ import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
 import actions.views.PetitionConverter;
 import actions.views.PetitionView;
+import actions.views.ReportConverter;
 import constants.AttributeConst;
 import constants.JpaConst;
 import models.Petition;
+import models.Report;
 
 /**
  * 申請データのテーブル操作に関わる処理を行うクラス
@@ -18,7 +20,7 @@ import models.Petition;
 public class PetitionService extends ServiceBase {
 
     /**
-     * 承認依頼中の日報データを、指定されたページ数の一覧画面に表示する分取得しPetitionViewのリストで返却する
+     * 申請データを、指定されたページ数の一覧画面に表示する分取得しPetitionViewのリストで返却する
      * @param employee 従業員
      * @param page ページ数
      * @return 一覧画面に表示するデータのリスト
@@ -34,9 +36,9 @@ public class PetitionService extends ServiceBase {
     }
 
     /**
-     * 承認依頼中の日報データの件数を取得し、返却する
+     * 申請データの件数を取得し、返却する
      * @param employee
-     * @return 日報データの件数
+     * @return 申請データの件数
      */
     public long countAllPetition(EmployeeView employee) {
 
@@ -57,26 +59,33 @@ public class PetitionService extends ServiceBase {
     }
 
     /**
-     * 画面から入力された日報の登録内容を元にデータを1件作成し、日報テーブルに登録する
-     * @param rv 日報の登録内容
-     * @return バリデーションで発生したエラーのリスト
+     * 画面から入力された日報の登録内容を元に申請データを1件作成し、申請テーブルに登録する
+     * @param rv 画面から入力された日報データ
      */
-    public void create(PetitionView pv) {
+    public void create(Report r) {
 
-            //登録、更新日時を現在日時に設定
-            LocalDateTime ldt = LocalDateTime.now();
-            pv.setCreatedAt(ldt);
-            pv.setUpdatedAt(ldt);
+        //登録、更新日時を現在日時に設定
+
+            PetitionView pv = new PetitionView(
+                    null,
+                    EmployeeConverter.toView(r.getApprover()), //承認者
+                    EmployeeConverter.toView(r.getEmployee()), //申請者
+                    ReportConverter.toView(r), //日報データ
+                    AttributeConst.PET_READ_FALSE.getIntegerValue(), //初期状態は未読
+                    LocalDateTime.now(),
+                    LocalDateTime.now()
+                    );
+
             createInternal(pv);
         }
 
     /**
-     * 承認依頼中の日報データを既読に更新
-     * @param rv 日報の更新内容
+     * 申請データを更新
+     * @param pv 申請データの更新内容
      */
     public void update(PetitionView pv) {
 
-            pv.setRead(AttributeConst.PET_READ_TRUE.getIntegerValue()); //既読に更新
+            pv.setReadStatus(AttributeConst.PET_READ_TRUE.getIntegerValue()); //既読に更新
 
             //更新日時を現在日時に設定
             LocalDateTime ldt = LocalDateTime.now();
@@ -95,8 +104,8 @@ public class PetitionService extends ServiceBase {
     }
 
     /**
-     * 承認依頼中の日報データを1件登録する
-     * @param pv 承認依頼中の日報データ
+     * 申請データを1件登録する
+     * @param pv 申請データ
      */
     private void createInternal(PetitionView pv) {
 
@@ -106,8 +115,8 @@ public class PetitionService extends ServiceBase {
     }
 
     /**
-     * 承認依頼中の日報データを更新する
-     * @param pv 承認依頼中の日報データ
+     * 申請データを更新する
+     * @param pv 申請データ
      */
     private void updateInternal(PetitionView pv) {
 

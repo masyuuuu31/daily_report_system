@@ -150,6 +150,12 @@ public class ReportService extends ServiceBase {
         Report r = ReportConverter.toModel(rv);
         em.persist(r);
         em.getTransaction().commit();
+
+        //承認者が設定されている場合申請データを登録する
+        if (rv.getApprover() != null) {
+            new PetitionService().create(r);
+            System.out.println("create done");
+        }
     }
 
     /**

@@ -37,7 +37,8 @@ public enum AttributeConst {
     EMP_ADMIN_FLG("admin_flag"),
 
     //承認者
-    EMPLOYEE_SUPERIOR("superior_list"),
+    EMPLOYEE_SUPERIORS("superior_list"),
+    EMPLOYEE_SUPERIOR("superior"),
 
     //部署名
     DEP_SALES(1),

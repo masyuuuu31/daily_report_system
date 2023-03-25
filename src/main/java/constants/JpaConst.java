@@ -63,6 +63,7 @@ public interface JpaConst {
     String REP_COL_TITLE = "title"; //日報のタイトル
     String REP_COL_CONTENT = "content"; //日報の内容
     String REP_COL_APPROVAL = "approval"; //承認状況
+    String REP_COL_APPROVER = "approver"; //承認者
     String REP_COL_CREATED_AT = "created_at"; //登録日時
     String REP_COL_UPDATED_AT = "updated_at"; //更新日時
 
@@ -78,7 +79,7 @@ public interface JpaConst {
     String PET_COL_SEND_TO = "send_to"; //承認者
     String PET_COL_SEND_FROM = "send_from"; //申請者
     String PET_COL_REP = "report_id"; //申請日報データ
-    String PET_COL_READ = "read"; //既読状況
+    String PET_COL_READ_STATUS = "read_status"; //既読状況
     String PET_COL_CREATED_AT = "created_at"; //登録日時
     String PET_COL_UPDATED_AT = "updated_at"; //更新日時
 

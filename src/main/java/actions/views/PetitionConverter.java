@@ -26,8 +26,8 @@ public class PetitionConverter {
                 EmployeeConverter.toModel(pv.getSendTo()),
                 EmployeeConverter.toModel(pv.getSendFrom()),
                 ReportConverter.toModel(pv.getReport()),
-                pv.getRead() == null ? null
-                        : pv.getRead() == AttributeConst.PET_READ_TRUE.getIntegerValue() ? JpaConst.PET_READ_TRUE
+                pv.getReadStatus() == null ? null
+                        : pv.getReadStatus() == AttributeConst.PET_READ_TRUE.getIntegerValue() ? JpaConst.PET_READ_TRUE
                                 : JpaConst.PET_READ_FALSE,
                 pv.getCreatedAt(),
                 pv.getUpdatedAt()
@@ -50,8 +50,8 @@ public class PetitionConverter {
                 EmployeeConverter.toView(p.getSendTo()),
                 EmployeeConverter.toView(p.getSendFrom()),
                 ReportConverter.toView(p.getReport()),
-                p.getRead() == null ? null
-                        : p.getRead() == JpaConst.PET_READ_TRUE ? AttributeConst.PET_READ_TRUE.getIntegerValue()
+                p.getReadStatus() == null ? null
+                        : p.getReadStatus() == JpaConst.PET_READ_TRUE ? AttributeConst.PET_READ_TRUE.getIntegerValue()
                                 : AttributeConst.PET_READ_FALSE.getIntegerValue(),
                 p.getCreatedAt(),
                 p.getUpdatedAt()
@@ -82,7 +82,7 @@ public class PetitionConverter {
         p.setSendTo(EmployeeConverter.toModel(pv.getSendTo()));
         p.setSendFrom(EmployeeConverter.toModel(pv.getSendFrom()));
         p.setReport(ReportConverter.toModel(pv.getReport()));
-        p.setRead(pv.getRead());
+        p.setReadStatus(pv.getReadStatus());
         p.setCreatedAt(pv.getCreatedAt());
         p.setUpdatedAt(pv.getUpdatedAt());
     }

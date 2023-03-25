@@ -87,7 +87,7 @@ public class ReportAction extends ActionBase{
         //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
         if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
             List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition());
-            putRequestScope(AttributeConst.EMPLOYEE_SUPERIOR, superiorList);
+            putRequestScope(AttributeConst.EMPLOYEE_SUPERIORS, superiorList);
         }
 
         //新規登録画面を表示
@@ -116,6 +116,14 @@ public class ReportAction extends ActionBase{
             //セッションからログイン中の従業員情報を取得
             EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
 
+            EmployeeView approver = null; //承認者
+
+            //ログイン中の従業員が部長以外の場合は、申請テーブルにデータを登録する
+            if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
+
+                approver = new EmployeeService().findOne(Integer.parseInt(getRequestParam(AttributeConst.EMPLOYEE_SUPERIOR)));
+            }
+
             //パラメータの値をもとに日報情報のインスタンスを作成する
             ReportView rv = new ReportView(
                     null,
@@ -124,6 +132,7 @@ public class ReportAction extends ActionBase{
                     getRequestParam(AttributeConst.REP_TITLE),
                     getRequestParam(AttributeConst.REP_CONTENT),
                     null,
+                    approver,
                     null,
                     null);
 
@@ -136,6 +145,12 @@ public class ReportAction extends ActionBase{
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策
                 putRequestScope(AttributeConst.REPORT, rv); //入力された日報情報
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
+
+                //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
+                if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
+                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition());
+                    putRequestScope(AttributeConst.EMPLOYEE_SUPERIORS, superiorList);
+                }
 
                 //新規登録画面を再表示
                 forward(ForwardConst.FW_REP_NEW);
