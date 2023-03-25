@@ -96,7 +96,7 @@ public class Report {
      * 承認者
      */
     @ManyToOne
-    @JoinColumn(name = JpaConst.REP_COL_EMP, nullable = true)
+    @JoinColumn(name = JpaConst.REP_COL_APPROVER, nullable = true)
     private Employee approver;
 
     /**
