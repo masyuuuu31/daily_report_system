@@ -49,6 +49,11 @@ public class ReportView {
     private Integer approval;
 
     /**
+     * 承認者
+     */
+    private EmployeeView approver;
+
+    /**
      * 登録日時
      */
     private LocalDateTime createdAt;

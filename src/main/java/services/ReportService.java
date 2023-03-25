@@ -147,7 +147,8 @@ public class ReportService extends ServiceBase {
     private void createInternal(ReportView rv) {
 
         em.getTransaction().begin();
-        em.persist(ReportConverter.toModel(rv));
+        Report r = ReportConverter.toModel(rv);
+        em.persist(r);
         em.getTransaction().commit();
     }
 
@@ -161,6 +162,7 @@ public class ReportService extends ServiceBase {
         Report r = findOneInternal(rv.getId());
         ReportConverter.copyViewToModel(r, rv);
         em.getTransaction().commit();
+
     }
 
 }

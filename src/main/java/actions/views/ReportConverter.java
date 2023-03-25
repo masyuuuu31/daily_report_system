@@ -51,6 +51,7 @@ public class ReportConverter {
                 rv.getTitle(),
                 rv.getContent(),
                 approvalValue,
+                EmployeeConverter.toModel(rv.getApprover()),
                 rv.getCreatedAt(),
                 rv.getUpdatedAt());
     }
@@ -96,6 +97,7 @@ public class ReportConverter {
                 r.getTitle(),
                 r.getContent(),
                 approvalValue,
+                EmployeeConverter.toView(r.getApprover()),
                 r.getCreatedAt(),
                 r.getUpdatedAt());
     }
@@ -126,6 +128,8 @@ public class ReportConverter {
         r.setReportDate(rv.getReportDate());
         r.setTitle(rv.getTitle());
         r.setContent(rv.getContent());
+        r.setApproval(rv.getApproval());
+        r.setApprover(EmployeeConverter.toModel(rv.getApprover()));
         r.setCreatedAt(rv.getCreatedAt());
         r.setUpdatedAt(rv.getUpdatedAt());
     }

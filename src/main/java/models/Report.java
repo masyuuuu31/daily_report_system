@@ -93,6 +93,13 @@ public class Report {
     private Integer approval;
 
     /**
+     * 承認者
+     */
+    @ManyToOne
+    @JoinColumn(name = JpaConst.REP_COL_EMP, nullable = true)
+    private Employee approver;
+
+    /**
      * 登録日時
      */
     @Column(name = JpaConst.REP_COL_CREATED_AT, nullable = false)
