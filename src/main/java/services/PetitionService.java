@@ -91,6 +91,8 @@ public class PetitionService extends ServiceBase {
             LocalDateTime ldt = LocalDateTime.now();
             pv.setUpdatedAt(ldt);
 
+            new ReportService().update(pv);
+
             updateInternal(pv);
         }
 

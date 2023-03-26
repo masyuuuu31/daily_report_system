@@ -17,8 +17,8 @@ public enum MessageConst {
     I_DELETED("削除が完了しました。"),
 
     //承認
-    I_APPLIED("申請しました。"),
-    IS_APPROVED("承認されました。"),
+    I_APPLIED("日報の申請が完了しました。"),
+    I_APPROVED("日報を承認しました。"),
     NOT_APPROVED("再提出を要求されました。"),
 
     //バリデーション

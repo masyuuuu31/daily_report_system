@@ -6,10 +6,10 @@
 <c:set var="actTop" value="${ForwardConst.ACT_TOP.getValue()}" />
 <c:set var="actEmp" value="${ForwardConst.ACT_EMP.getValue()}" />
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
+<c:set var="actPet" value="${ForwardConst.ACT_PET.getValue()}" />
 
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
-<c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -27,14 +27,14 @@
                     <th class="report_title">タイトル</th>
                     <th class="report_action">操作</th>
                 </tr>
-                <c:forEach var="petition" items="${petitions}" varStatus="status">
+                <c:forEach var="petition" items="${petitions}" varStatus="status" >
                     <fmt:parseDate value="${petition.report.reportDate}" pattern="yyyy-MM-dd" var="reportDay" type="date" />
 
                     <tr class="row${status.count % 2}">
                         <td class="report_name"><c:out value="${petition.report.employee.name}" /></td>
                         <td class="report_date"><fmt:formatDate value="${reportDay}" pattern="yyyy-MM-dd" /></td>
                         <td class="report_title">${petition.report.title}</td>
-                        <td class="report_action"><a href="<c:url value='?action=${actRep}&command=${commShow}&id=${petition.report.id}' />">詳細を見る</a></td>
+                        <td class="report_action"><a href="<c:url value='?action=${actPet}&command=${commShow}&id=${petition.id}' />">詳細を見る</a></td>
                     </tr>
                 </c:forEach>
             </tbody>

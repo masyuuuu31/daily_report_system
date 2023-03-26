@@ -42,8 +42,6 @@
     id="${AttributeConst.REP_CONTENT.getValue()}" rows="10" cols="50">${report.content}</textarea>
 <br>
 
-<input type="hidden" name="${AttributeConst.REP_APPROVAL.getValue()}"
-    value="${report.approval}" />
 <input type="hidden" name="${AttributeConst.REP_ID.getValue()}"
     value="${report.id}" />
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}"

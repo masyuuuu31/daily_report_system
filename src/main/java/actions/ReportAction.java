@@ -158,7 +158,7 @@ public class ReportAction extends ActionBase{
                 //登録中にエラーがなかった場合
 
                 //セッションに登録完了のフラッシュメッセージを設定
-                putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
+                putSessionScope(AttributeConst.FLUSH, MessageConst.I_APPLIED.getMessage());
 
                 //一覧画面にリダイレクト
                 redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
@@ -202,17 +202,24 @@ public class ReportAction extends ActionBase{
         //セッションからログイン中の従業員情報を取得
         EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
 
-        if (rv == null || ev.getId() != rv.getEmployee().getId()) {
-            //該当の日報データが存在しない、または
-            //ログインしている従業員が日報の作成者ではない場合はエラー画面を表示
-            forward(ForwardConst.FW_ERR_UNKNOWN);
+        //日報データが承認済み以外の場合は編集可能
+        if (ev.getPosition() == AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue() || rv.getApproval() != AttributeConst.REP_APPROVAL_DONE.getIntegerValue()) {
+
+            if (rv == null || ev.getId() != rv.getEmployee().getId()) {
+                //該当の日報データが存在しない、または
+                //ログインしている従業員が日報の作成者ではない場合はエラー画面を表示
+                forward(ForwardConst.FW_ERR_UNKNOWN);
+            } else {
+
+                putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+                putRequestScope(AttributeConst.REPORT, rv); //取得した日報データ
+
+                //編集画面を表示
+                forward(ForwardConst.FW_REP_EDIT);
+            }
         } else {
-
-            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-            putRequestScope(AttributeConst.REPORT, rv); //取得した日報データ
-
-            //編集画面を表示
-            forward(ForwardConst.FW_REP_EDIT);
+            //日報データが承認済みの場合はエラー画面を表示
+            forward(ForwardConst.FW_ERR_UNKNOWN);
         }
     }
 

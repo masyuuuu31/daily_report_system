@@ -86,7 +86,7 @@ public enum AttributeConst {
     //申請管理
     PETITION("petition"),
     PETITIONS("petitions"),
-    PET_ID("petition_id"),
+    PET_ID("id"),
     PET_TO("send_to"),
     PET_FROM("send_from"),
     PET_REP("report_id"),

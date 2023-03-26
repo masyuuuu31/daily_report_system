@@ -5,6 +5,7 @@ import java.util.List;
 
 import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
+import actions.views.PetitionView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
 import constants.AttributeConst;
@@ -126,9 +127,20 @@ public class ReportService extends ServiceBase {
             updateInternal(rv);
 
         }
-
         //バリデーションで発生したエラーを返却（エラーが無ければ0件のリスト）
         return errors;
+    }
+
+    /**
+     * 申請データに格納されている日報情報を更新する（承認状況、更新日時）
+     * @param pv 申請データ
+     */
+    public void update(PetitionView pv) {
+
+        //更新日時を現在日時に設定
+        LocalDateTime ldt = LocalDateTime.now();
+        pv.getReport().setUpdatedAt(ldt);
+        updateInternal(pv.getReport());
     }
 
     /**
@@ -170,5 +182,4 @@ public class ReportService extends ServiceBase {
         em.getTransaction().commit();
 
     }
-
 }

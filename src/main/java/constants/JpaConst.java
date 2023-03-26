@@ -136,9 +136,9 @@ public interface JpaConst {
     String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
     //承認依頼中の日報データを表示する
     String Q_PET_GET_ALL = ENTITY_PET + ".getAll";
-    String Q_PET_GET_ALL_DEF = "SELECT p FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + " AND (p.report.approval = 0 OR p.report.approval = 1) ORDER BY p.id DESC";
+    String Q_PET_GET_ALL_DEF = "SELECT p FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + " AND (p.report.approval = 0 OR p.report.approval = 2) ORDER BY p.id DESC";
     //承認依頼中の日報件数を取得する
     String Q_PET_COUNT_ALL = ENTITY_PET + ".countAll";
-    String Q_PET_COUNT_ALL_DEF = "SELECT COUNT(p) FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + " AND (p.report.approval = 0 OR p.report.approval = 1)";
+    String Q_PET_COUNT_ALL_DEF = "SELECT COUNT(p) FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + " AND (p.report.approval = 0 OR p.report.approval = 2)";
 
 }

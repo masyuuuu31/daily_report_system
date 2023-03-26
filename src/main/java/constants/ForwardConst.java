@@ -40,7 +40,8 @@ public enum ForwardConst {
     FW_REP_SHOW("reports/show"),
     FW_REP_NEW("reports/new"),
     FW_REP_EDIT("reports/edit"),
-    FW_PET_INDEX("petitions/index");
+    FW_PET_INDEX("petitions/index"),
+    FW_PET_SHOW("petitions/show");
 
     /**
      * 文字列
