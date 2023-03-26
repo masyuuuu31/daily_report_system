@@ -5,6 +5,7 @@
 <%@ page import="constants.ForwardConst"%>
 <%@ page import="constants.AttributeConst"%>
 
+<c:set var="actTop" value="${ForwardConst.ACT_TOP.getValue()}" />
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
@@ -29,6 +30,24 @@
                 <th>内容</th>
                 <td><pre><c:out value="${report.content}" /></pre></td>
             </tr>
+            <c:if
+                test="${login_employee.position != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()}">
+                <tr>
+                    <th>承認者</th>
+                    <td><c:out value="${report.approver.name}" /></td>
+                </tr>
+                <tr>
+                    <th>承認状況</th>
+                    <td><c:choose>
+                            <c:when
+                                test="${report.approval == AttributeConst.REP_APPLICATION.getIntegerValue()}">申請中</c:when>
+                            <c:when
+                                test="${report.approval == AttributeConst.REP_APPROVAL_DONE.getIntegerValue()}">承認済み</c:when>
+                            <c:when
+                                test="${report.approval == AttributeConst.REP_APPROVAL_REJECT.getIntegerValue()}">要再提出</c:when>
+                        </c:choose></td>
+                </tr>
+            </c:if>
             <tr>
                 <th>登録日時</th>
                 <fmt:parseDate value="${report.createdAt}"
@@ -55,7 +74,7 @@
         </c:if>
 
         <p>
-            <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">一覧に戻る</a>
+            <a href="<c:url value='?action=${actTop}&command=${commIdx}' />">一覧に戻る</a>
         </p>
     </c:param>
-</c:import>
+</c:import>l>
