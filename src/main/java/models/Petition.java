@@ -32,6 +32,9 @@ import lombok.Setter;
     @NamedQuery(
             name = JpaConst.Q_PET_COUNT_ALL,
             query = JpaConst.Q_PET_COUNT_ALL_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_PET_GET_BY_REPORT,
+            query = JpaConst.Q_PET_GET_BY_REPORT_DEF)
 })
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)
 @Setter //全てのクラスフィールドについてsetterを自動生成する(Lombok)

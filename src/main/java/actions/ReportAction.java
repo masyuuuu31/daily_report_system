@@ -7,12 +7,14 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import actions.views.EmployeeView;
+import actions.views.PetitionView;
 import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
 import services.EmployeeService;
+import services.PetitionService;
 import services.ReportService;
 
 /**
@@ -20,7 +22,7 @@ import services.ReportService;
  *
  */
 
-public class ReportAction extends ActionBase{
+public class ReportAction extends ActionBase {
 
     private ReportService service;
 
@@ -118,10 +120,11 @@ public class ReportAction extends ActionBase{
 
             EmployeeView approver = null; //承認者
 
-            //ログイン中の従業員が部長以外の場合は、申請テーブルにデータを登録する
+            //ログイン中の従業員が部長以外の場合は、承認者をパラメーターから取得する
             if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
 
-                approver = new EmployeeService().findOne(Integer.parseInt(getRequestParam(AttributeConst.EMPLOYEE_SUPERIOR)));
+                approver = new EmployeeService()
+                        .findOne(Integer.parseInt(getRequestParam(AttributeConst.EMPLOYEE_SUPERIOR)));
             }
 
             //パラメータの値をもとに日報情報のインスタンスを作成する
@@ -158,7 +161,11 @@ public class ReportAction extends ActionBase{
                 //登録中にエラーがなかった場合
 
                 //セッションに登録完了のフラッシュメッセージを設定
-                putSessionScope(AttributeConst.FLUSH, MessageConst.I_APPLIED.getMessage());
+                if (ev.getPosition() == AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
+                    putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
+                } else {
+                    putSessionScope(AttributeConst.FLUSH, MessageConst.I_APPLIED.getMessage());
+                }
 
                 //一覧画面にリダイレクト
                 redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
@@ -203,7 +210,8 @@ public class ReportAction extends ActionBase{
         EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
 
         //日報データが承認済み以外の場合は編集可能
-        if (ev.getPosition() == AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue() || rv.getApproval() != AttributeConst.REP_APPROVAL_DONE.getIntegerValue()) {
+        if (ev.getPosition() == AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()
+                || rv.getApproval() != AttributeConst.REP_APPROVAL_DONE.getIntegerValue()) {
 
             if (rv == null || ev.getId() != rv.getEmployee().getId()) {
                 //該当の日報データが存在しない、または
@@ -211,12 +219,19 @@ public class ReportAction extends ActionBase{
                 forward(ForwardConst.FW_ERR_UNKNOWN);
             } else {
 
+                //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
+                if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
+                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition());
+                    putRequestScope(AttributeConst.EMPLOYEE_SUPERIORS, superiorList);
+                }
+
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
                 putRequestScope(AttributeConst.REPORT, rv); //取得した日報データ
 
                 //編集画面を表示
                 forward(ForwardConst.FW_REP_EDIT);
             }
+
         } else {
             //日報データが承認済みの場合はエラー画面を表示
             forward(ForwardConst.FW_ERR_UNKNOWN);
@@ -236,13 +251,34 @@ public class ReportAction extends ActionBase{
             //idを条件に日報データを取得する
             ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
 
+            //セッションからログイン中の従業員情報を取得
+            EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+
             //入力された日報内容を設定する
             rv.setReportDate(toLocalDate(getRequestParam(AttributeConst.REP_DATE)));
             rv.setTitle(getRequestParam(AttributeConst.REP_TITLE));
             rv.setContent(getRequestParam(AttributeConst.REP_CONTENT));
 
+
+            PetitionView pv = null; //申請データ
+
+            //ログイン中の従業員が部長以外の場合は、承認者をパラメーターから取得する
+            if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
+
+                EmployeeView approver = new EmployeeService()
+                        .findOne(Integer.parseInt(getRequestParam(AttributeConst.EMPLOYEE_SUPERIOR)));
+                rv.setApprover(approver);
+
+                //承認状況が再提出の場合は、申請中に変更する
+                if(rv.getApproval() == AttributeConst.REP_APPROVAL_REJECT.getIntegerValue()) {
+                    rv.setApproval(AttributeConst.REP_APPLICATION.getIntegerValue());
+                }
+
+                pv = new PetitionService().findByReport(rv);
+            }
+
             //日報データを更新する
-            List<String> errors = service.update(rv);
+            List<String> errors = service.update(rv, pv);
 
             if (errors.size() > 0) {
                 //更新中にエラーが発生した場合
@@ -251,13 +287,23 @@ public class ReportAction extends ActionBase{
                 putRequestScope(AttributeConst.REPORT, rv); //入力された日報情報
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
+                //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
+                if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
+                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition());
+                    putRequestScope(AttributeConst.EMPLOYEE_SUPERIORS, superiorList);
+                }
+
                 //編集画面を再表示
                 forward(ForwardConst.FW_REP_EDIT);
             } else {
                 //更新中にエラーがなかった場合
 
                 //セッションに更新完了のフラッシュメッセージを設定
-                putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
+                if (ev.getPosition() == AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
+                    putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
+                } else {
+                    putSessionScope(AttributeConst.FLUSH, MessageConst.I_REAPPLIED.getMessage());
+                }
 
                 //一覧画面にリダイレクト
                 redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);

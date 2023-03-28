@@ -18,8 +18,10 @@ public enum MessageConst {
 
     //承認
     I_APPLIED("日報の申請が完了しました。"),
+    I_REAPPLIED("再申請しました。"),
     I_APPROVED("日報を承認しました。"),
-    NOT_APPROVED("再提出を要求されました。"),
+    I_REJECTED("再提出を要求しました。"),
+
 
     //バリデーション
     E_NONAME("氏名を入力してください。"),

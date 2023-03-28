@@ -111,9 +111,10 @@ public class ReportService extends ServiceBase {
     /**
      * 画面から入力された日報の登録内容を元に、日報データを更新する
      * @param rv 日報の更新内容
+     * @param pv 申請データ
      * @return バリデーションで発生したエラーのリスト
      */
-    public List<String> update(ReportView rv) {
+    public List<String> update(ReportView rv, PetitionView pv) {
 
         //バリデーションを行う
         List<String> errors = ReportValidator.validate(rv);
@@ -126,13 +127,21 @@ public class ReportService extends ServiceBase {
 
             updateInternal(rv);
 
+            //申請データが存在する場合、申請テーブルを更新する
+            if (pv != null) {
+                //更新済みのrvを取得
+                ReportView savedRv = findOne(rv.getId());
+                pv.setReport(savedRv);
+                new PetitionService().update(pv, true);
+            }
+
         }
         //バリデーションで発生したエラーを返却（エラーが無ければ0件のリスト）
         return errors;
     }
 
     /**
-     * 申請データに格納されている日報情報を更新する（承認状況、更新日時）
+     * 申請データ更新時に日報データを更新する（承認状況、更新日時）
      * @param pv 申請データ
      */
     public void update(PetitionView pv) {

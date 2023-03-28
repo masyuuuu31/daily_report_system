@@ -3,11 +3,14 @@ package services;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
 import actions.views.PetitionConverter;
 import actions.views.PetitionView;
 import actions.views.ReportConverter;
+import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.JpaConst;
 import models.Petition;
@@ -59,6 +62,22 @@ public class PetitionService extends ServiceBase {
     }
 
     /**
+     * reportを条件に取得したデータをPetitionViewのインスタンスで返却する
+     * @param report
+     * @return 取得データのインスタンス
+     */
+    public PetitionView findByReport(ReportView report) {
+        Petition pv = null;
+        try {
+            pv = em.createNamedQuery(JpaConst.Q_PET_GET_BY_REPORT, Petition.class)
+                    .setParameter(JpaConst.JPQL_PARM_REPORT, ReportConverter.toModel(report))
+                    .getSingleResult();
+        } catch (NoResultException e) {
+        }
+        return PetitionConverter.toView(pv);
+    }
+
+    /**
      * 画面から入力された日報の登録内容を元に申請データを1件作成し、申請テーブルに登録する
      * @param rv 画面から入力された日報データ
      */
@@ -82,16 +101,23 @@ public class PetitionService extends ServiceBase {
     /**
      * 申請データを更新
      * @param pv 申請データの更新内容
+     * @param frs 呼び出し元判定フラグ（True / False）
      */
-    public void update(PetitionView pv) {
-
-            pv.setReadStatus(AttributeConst.PET_READ_TRUE.getIntegerValue()); //既読に更新
+    public void update(PetitionView pv, boolean frs) {
 
             //更新日時を現在日時に設定
             LocalDateTime ldt = LocalDateTime.now();
             pv.setUpdatedAt(ldt);
 
-            new ReportService().update(pv);
+            //PetitionAction update()から呼び出された場合は、ReportService.update(pv)を呼び出す
+            if (frs == false) {
+                new ReportService().update(pv);
+                pv.setReadStatus(AttributeConst.PET_READ_TRUE.getIntegerValue()); //既読に更新
+            } else {
+                //日報が再申請された場合、承認者を変更する
+                pv.setSendTo(pv.getReport().getApprover());
+                pv.setReadStatus(AttributeConst.PET_READ_FALSE.getIntegerValue()); //未読に更新
+            }
 
             updateInternal(pv);
         }

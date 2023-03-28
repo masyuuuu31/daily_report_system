@@ -97,6 +97,7 @@ public interface JpaConst {
     String JPQL_PARM_EMPLOYEE = "employee"; //従業員
     String JPQL_PARM_DEPARTMENT = "department"; //部署
     String JPQL_PARM_DIVISION = "division"; //所属グループ
+    String JPQL_PARM_REPORT = "report"; //日報
 
     //NamedQueryの nameとquery
     //従業員についてのNamedQuery
@@ -136,9 +137,12 @@ public interface JpaConst {
     String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
     //承認依頼中の日報データを表示する
     String Q_PET_GET_ALL = ENTITY_PET + ".getAll";
-    String Q_PET_GET_ALL_DEF = "SELECT p FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + " AND (p.report.approval = 0 OR p.report.approval = 2) ORDER BY p.id DESC";
+    String Q_PET_GET_ALL_DEF = "SELECT p FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + " AND p.report.approval = 0 ORDER BY p.id DESC";
     //承認依頼中の日報件数を取得する
     String Q_PET_COUNT_ALL = ENTITY_PET + ".countAll";
-    String Q_PET_COUNT_ALL_DEF = "SELECT COUNT(p) FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + " AND (p.report.approval = 0 OR p.report.approval = 2)";
+    String Q_PET_COUNT_ALL_DEF = "SELECT COUNT(p) FROM Petition AS p WHERE p.sendTo = :" + JPQL_PARM_EMPLOYEE + " AND p.report.approval = 0 ";
+    //指定した日報を含む申請データを取得する
+    String Q_PET_GET_BY_REPORT = ENTITY_PET + ".getByReport";
+    String Q_PET_GET_BY_REPORT_DEF = "SELECT p FROM Petition AS p WHERE p.report = :" + JPQL_PARM_REPORT;
 
 }
