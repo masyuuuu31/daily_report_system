@@ -24,7 +24,7 @@
         <table id="report_list">
             <tbody>
                 <tr>
-                    <th class="report_status">承認状況</th>
+                    <c:if test="${login_employee.position != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()}"><th class="report_status">承認状況</th></c:if>
                     <th class="report_name">氏名</th>
                     <th class="report_date">日付</th>
                     <th class="report_title">タイトル</th>
@@ -33,16 +33,18 @@
                 <c:forEach var="report" items="${reports}" varStatus="status" >
                     <fmt:parseDate value="${report.reportDate}" pattern="yyyy-MM-dd" var="reportDay" type="date" />
                     <tr class="row${status.count % 2} <c:if test="${report.approval == AttributeConst.REP_APPROVAL_REJECT.getIntegerValue()}" >rejected</c:if>">
-                        <td class="report_status">
-                        <c:choose>
-                            <c:when
-                                test="${report.approval == AttributeConst.REP_APPLICATION.getIntegerValue()}">申請中</c:when>
-                            <c:when
-                                test="${report.approval == AttributeConst.REP_APPROVAL_DONE.getIntegerValue()}">承認済み</c:when>
-                            <c:when
-                                test="${report.approval == AttributeConst.REP_APPROVAL_REJECT.getIntegerValue()}">要再提出</c:when>
-                        </c:choose>
-                        </td>
+                        <c:if test="${login_employee.position != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()}">
+                            <td class="report_status">
+                                <c:choose>
+                                    <c:when
+                                        test="${report.approval == AttributeConst.REP_APPLICATION.getIntegerValue()}">申請中</c:when>
+                                    <c:when
+                                        test="${report.approval == AttributeConst.REP_APPROVAL_DONE.getIntegerValue()}">承認済み</c:when>
+                                    <c:when
+                                        test="${report.approval == AttributeConst.REP_APPROVAL_REJECT.getIntegerValue()}">要再提出</c:when>
+                                </c:choose>
+                            </td>
+                        </c:if>
                         <td class="report_name"><c:out value="${report.employee.name}" /></td>
                         <td class="report_date"><fmt:formatDate value="${reportDay}" pattern="yyyy-MM-dd" /></td>
                         <td class="report_title">${report.title}</td>
