@@ -20,32 +20,91 @@ public class EmployeeConverter {
      */
     public static Employee toModel(EmployeeView ev) {
 
+        Integer department = null;
+        Integer division = null;
+        Integer position = null;
+
+        if (ev.getDepartment() != null) {
+
+            switch (ev.getDepartment()) {
+
+            case 1:
+                department = JpaConst.DEP_SALES;
+                break;
+
+            case 2:
+                department = JpaConst.DEP_HUMAN_RESOURCES;
+                break;
+
+            case 3:
+                department = JpaConst.DEP_INFORMATION_SYSTEMS;
+                break;
+
+            case 4:
+                department = JpaConst.DEP_GENERAL;
+                break;
+
+            case 5:
+                department = JpaConst.DEP_ACCOUNTING;
+                break;
+
+            }
+        }
+
+        if (ev.getDivision() != null) {
+
+            switch (ev.getDivision()) {
+
+            case 1:
+                division = JpaConst.DEP_DIV_FIRST;
+                break;
+
+            case 2:
+                division = JpaConst.DEP_DIV_SECOND;
+                break;
+
+            case 3:
+                division = JpaConst.DEP_DIV_THIRD;
+                break;
+
+            case 4:
+                division = JpaConst.DEP_DIV_FOURTH;
+                break;
+
+            case 5:
+                division = JpaConst.DEP_DIV_FIFTH;
+                break;
+
+            }
+        }
+
+        if (ev.getPosition() != null) {
+
+            switch (ev.getPosition()) {
+
+            case 1:
+                position = JpaConst.DEP_POS_NORMAL;
+                break;
+
+            case 2:
+                position = JpaConst.DEP_POS_CHIEF;
+                break;
+
+            case 3:
+                position = JpaConst.DEP_POS_MANAGER;
+                break;
+
+            case 4:
+                position = JpaConst.DEP_POS_GENERAL_MANAGER;
+                break;
+
+            }
+        }
+
         return new Employee(ev.getId(), ev.getCode(), ev.getName(), ev.getPassword(),
-                ev.getDepartment() == null ? null
-                        : ev.getDepartment() == AttributeConst.DEP_SALES.getIntegerValue() ? JpaConst.DEP_SALES
-                                : ev.getDepartment() == AttributeConst.DEP_HUMAN_RESOURCES.getIntegerValue()
-                                        ? JpaConst.DEP_HUMAN_RESOURCES
-                                        : ev.getDepartment() == AttributeConst.DEP_INFORMATION_SYSTEMS.getIntegerValue()
-                                                ? JpaConst.DEP_INFORMATION_SYSTEMS
-                                                : ev.getDepartment() == AttributeConst.DEP_GENERAL.getIntegerValue()
-                                                        ? JpaConst.DEP_GENERAL
-                                                        : JpaConst.DEP_ACCOUNTING,
-                ev.getDivision() == null ? null
-                        : ev.getDivision() == AttributeConst.DEP_DIV_FIRST.getIntegerValue() ? JpaConst.DEP_DIV_FIRST
-                                : ev.getDivision() == AttributeConst.DEP_DIV_SECOND.getIntegerValue()
-                                        ? JpaConst.DEP_DIV_SECOND
-                                        : ev.getDivision() == AttributeConst.DEP_DIV_THIRD.getIntegerValue()
-                                                ? JpaConst.DEP_DIV_THIRD
-                                                : ev.getDivision() == AttributeConst.DEP_DIV_FOURTH.getIntegerValue()
-                                                        ? JpaConst.DEP_DIV_FOURTH
-                                                        : JpaConst.DEP_DIV_FIFTH,
-                ev.getPosition() == null ? null
-                        : ev.getPosition() == AttributeConst.DEP_POS_NORMAL.getIntegerValue() ? JpaConst.DEP_POS_NORMAL
-                                : ev.getPosition() == AttributeConst.DEP_POS_CHIEF.getIntegerValue()
-                                        ? JpaConst.DEP_POS_CHIEF
-                                        : ev.getPosition() == AttributeConst.DEP_POS_MANAGER.getIntegerValue()
-                                                ? JpaConst.DEP_POS_MANAGER
-                                                : JpaConst.DEP_POS_GENERAL_MANAGER,
+                department,
+                division,
+                position,
                 ev.getAdminFlag() == null ? null
                         : ev.getAdminFlag() == AttributeConst.ROLE_ADMIN.getIntegerValue() ? JpaConst.ROLE_ADMIN
                                 : JpaConst.ROLE_GENERAL,
@@ -66,36 +125,95 @@ public class EmployeeConverter {
             return null;
         }
 
+        Integer department = null;
+        Integer division = null;
+        Integer position = null;
+
+        if (e.getDepartment() != null) {
+
+            switch (e.getDepartment()) {
+
+            case 1:
+                department = AttributeConst.DEP_SALES.getIntegerValue();
+                break;
+
+            case 2:
+                department = AttributeConst.DEP_HUMAN_RESOURCES.getIntegerValue();
+                break;
+
+            case 3:
+                department = AttributeConst.DEP_INFORMATION_SYSTEMS.getIntegerValue();
+                break;
+
+            case 4:
+                department = AttributeConst.DEP_GENERAL.getIntegerValue();
+                break;
+
+            case 5:
+                department = AttributeConst.DEP_ACCOUNTING.getIntegerValue();
+                break;
+
+            }
+        }
+
+        if (e.getDivision() != null) {
+
+            switch (e.getDivision()) {
+
+            case 1:
+                division = AttributeConst.DEP_DIV_FIFTH.getIntegerValue();
+                break;
+
+            case 2:
+                division = AttributeConst.DEP_DIV_SECOND.getIntegerValue();
+                break;
+
+            case 3:
+                division = AttributeConst.DEP_DIV_THIRD.getIntegerValue();
+                break;
+
+            case 4:
+                division = AttributeConst.DEP_DIV_FOURTH.getIntegerValue();
+                break;
+
+            case 5:
+                division = AttributeConst.DEP_DIV_FIFTH.getIntegerValue();
+                break;
+
+            }
+        }
+
+        if (e.getPosition() != null) {
+
+            switch (e.getPosition()) {
+
+            case 1:
+                position = AttributeConst.DEP_POS_NORMAL.getIntegerValue();
+                break;
+
+            case 2:
+                position = AttributeConst.DEP_POS_CHIEF.getIntegerValue();
+                break;
+
+            case 3:
+                position = AttributeConst.DEP_POS_MANAGER.getIntegerValue();
+                break;
+
+            case 4:
+                position = AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue();
+                break;
+
+            }
+        }
+
         return new EmployeeView(
                 e.getId(),
                 e.getCode(),
                 e.getName(),
                 e.getPassword(),
-                e.getDepartment() == null ? null
-                        : e.getDepartment() == JpaConst.DEP_SALES ? AttributeConst.DEP_SALES.getIntegerValue()
-                                : e.getDepartment() == JpaConst.DEP_HUMAN_RESOURCES
-                                        ? AttributeConst.DEP_HUMAN_RESOURCES.getIntegerValue()
-                                        : e.getDepartment() == JpaConst.DEP_INFORMATION_SYSTEMS
-                                                ? AttributeConst.DEP_INFORMATION_SYSTEMS.getIntegerValue()
-                                                : e.getDepartment() == JpaConst.DEP_GENERAL
-                                                        ? AttributeConst.DEP_GENERAL.getIntegerValue()
-                                                        : AttributeConst.DEP_ACCOUNTING.getIntegerValue(),
-                e.getDivision() == null ? null
-                        : e.getDivision() == JpaConst.DEP_DIV_FIRST ? AttributeConst.DEP_DIV_FIRST.getIntegerValue()
-                                : e.getDivision() == JpaConst.DEP_DIV_SECOND
-                                        ? AttributeConst.DEP_DIV_SECOND.getIntegerValue()
-                                        : e.getDivision() == JpaConst.DEP_DIV_THIRD
-                                                ? AttributeConst.DEP_DIV_THIRD.getIntegerValue()
-                                                : e.getDivision() == JpaConst.DEP_DIV_FOURTH
-                                                        ? AttributeConst.DEP_DIV_FOURTH.getIntegerValue()
-                                                        : AttributeConst.DEP_DIV_FIFTH.getIntegerValue(),
-                e.getPosition() == null ? null
-                        : e.getPosition() == JpaConst.DEP_POS_NORMAL ? AttributeConst.DEP_POS_NORMAL.getIntegerValue()
-                                : e.getPosition() == JpaConst.DEP_POS_CHIEF
-                                        ? AttributeConst.DEP_POS_CHIEF.getIntegerValue()
-                                        : e.getPosition() == JpaConst.DEP_POS_MANAGER
-                                                ? AttributeConst.DEP_POS_MANAGER.getIntegerValue()
-                                                : AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue(),
+                department,
+                division,
+                position,
                 e.getAdminFlag() == null
                         ? null
                         : e.getAdminFlag() == JpaConst.ROLE_ADMIN

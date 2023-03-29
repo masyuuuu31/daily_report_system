@@ -11,7 +11,6 @@ import actions.views.PetitionConverter;
 import actions.views.PetitionView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
-import constants.AttributeConst;
 import constants.JpaConst;
 import models.Petition;
 import models.Report;
@@ -90,7 +89,6 @@ public class PetitionService extends ServiceBase {
                     EmployeeConverter.toView(r.getApprover()), //承認者
                     EmployeeConverter.toView(r.getEmployee()), //申請者
                     ReportConverter.toView(r), //日報データ
-                    AttributeConst.PET_READ_FALSE.getIntegerValue(), //初期状態は未読
                     LocalDateTime.now(),
                     LocalDateTime.now()
                     );
@@ -112,13 +110,10 @@ public class PetitionService extends ServiceBase {
             //PetitionAction update()から呼び出された場合は、ReportService.update(pv)を呼び出す
             if (frs == false) {
                 new ReportService().update(pv);
-                pv.setReadStatus(AttributeConst.PET_READ_TRUE.getIntegerValue()); //既読に更新
             } else {
                 //日報が再申請された場合、承認者を変更する
                 pv.setSendTo(pv.getReport().getApprover());
-                pv.setReadStatus(AttributeConst.PET_READ_FALSE.getIntegerValue()); //未読に更新
             }
-
             updateInternal(pv);
         }
 

@@ -38,11 +38,6 @@ public class PetitionView {
     private ReportView report;
 
     /**
-     * 既読状況（0 : 未読、1 : 既読）
-     */
-    private Integer readStatus;
-
-    /**
      * 登録日時
      */
     private LocalDateTime createdAt;

@@ -39,8 +39,6 @@ public class ReportConverter {
                 approvalValue = JpaConst.REP_APPROVAL_REJECT;
                 break;
 
-            default:
-                System.out.println("値を取得できませんでした。"); //デバック用出力
             }
         }
 
@@ -86,8 +84,6 @@ public class ReportConverter {
                 approvalValue = AttributeConst.REP_APPROVAL_REJECT.getIntegerValue();
                 break;
 
-            default:
-                System.out.println("値を取得できませんでした。"); //デバック用出力
             }
         }
 
