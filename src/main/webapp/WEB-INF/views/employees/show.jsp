@@ -6,7 +6,8 @@
 <%@ page import="constants.AttributeConst"%>
 
 <c:set var="actEmp" value="${ForwardConst.ACT_EMP.getValue()}" />
-<c:set var="commIdx" value="${ForwardConst.CMD_INDEX_DEP.getValue()}" />
+<c:set var="commIdxDep" value="${ForwardConst.CMD_INDEX_DEP.getValue()}" />
+<c:set var="commIdxAll" value="${ForwardConst.CMD_INDEX_ALL.getValue()}" />
 <c:set var="commEdit" value="${ForwardConst.CMD_EDIT.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
@@ -92,14 +93,22 @@
             </tbody>
         </table>
 
-        <p>
-            <a
-                href="<c:url value='?action=${actEmp}&command=${commEdit}&id=${employee.id}' />">この従業員情報を編集する</a>
-        </p>
+        <c:if test="${sessionScope.login_employee.department == employee.department}">
+            <p><a href="<c:url value='?action=${actEmp}&command=${commEdit}&id=${employee.id}' />">この従業員情報を編集する</a></p>
+        </c:if>
 
-        <p>
-            <a href="<c:url value='?action=${actEmp}&command=${commIdx}' />">一覧に戻る</a>
-        </p>
+        <c:choose>
+            <c:when test="${sessionScope.view_select == AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue()}">
+                <p>
+                    <a href="<c:url value='?action=${actEmp}&command=${commIdxDep}' />">一覧に戻る</a>
+                </p>
+            </c:when>
+            <c:otherwise>
+                <p>
+                    <a href="<c:url value='?action=${actEmp}&command=${commIdxAll}' />">一覧に戻る</a>
+                </p>
+            </c:otherwise>
+        </c:choose>
 
     </c:param>
 </c:import>

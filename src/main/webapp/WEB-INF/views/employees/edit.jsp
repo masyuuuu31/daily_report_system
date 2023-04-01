@@ -4,7 +4,8 @@
 <%@ page import="constants.ForwardConst" %>
 
 <c:set var="action" value="${ForwardConst.ACT_EMP.getValue()}" />
-<c:set var="commIdx" value="${ForwardConst.CMD_INDEX_DEP.getValue()}" />
+<c:set var="commIdxDep" value="${ForwardConst.CMD_INDEX_DEP.getValue()}" />
+<c:set var="commIdxAll" value="${ForwardConst.CMD_INDEX_ALL.getValue()}" />
 <c:set var="commUpd" value="${ForwardConst.CMD_UPDATE.getValue()}" />
 <c:set var="commDel" value="${ForwardConst.CMD_DESTROY.getValue()}" />
 
@@ -34,8 +35,17 @@
         }
         </script>
 
-        <p>
-            <a href="<c:url value='?action=${action}&command=${commIdx}' />">一覧に戻る</a>
-        </p>
+        <c:choose>
+            <c:when test="${sessionScope.view_select == AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue()}">
+                <p>
+                    <a href="<c:url value='?action=${action}&command=${commIdxDep}' />">一覧に戻る</a>
+                </p>
+            </c:when>
+            <c:otherwise>
+                <p>
+                    <a href="<c:url value='?action=${action}&command=${commIdxAll}' />">一覧に戻る</a>
+                </p>
+            </c:otherwise>
+        </c:choose>
     </c:param>
 </c:import>

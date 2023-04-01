@@ -53,7 +53,7 @@ public class EmployeeAction extends ActionBase {
             //従業員データの件数を取得
             long employeeCount = service.countByDepartment(ev.getDepartment());
 
-            putRequestScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue());
+            putSessionScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue());
 
             index(employees, employeeCount, page);
         }
@@ -76,7 +76,7 @@ public class EmployeeAction extends ActionBase {
             //従業員データの件数を取得
             long employeeCount = service.countAll();
 
-            putRequestScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_ALL.getIntegerValue());
+            putSessionScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_ALL.getIntegerValue());
 
             index(employees, employeeCount, page);
         }
@@ -90,15 +90,15 @@ public class EmployeeAction extends ActionBase {
     public void entryNew() throws ServletException, IOException {
 
         //管理者かどうかのチェック
-        //        if (checkAdmin()) {
+        if (checkAdmin()) {
 
-        putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-        putRequestScope(AttributeConst.EMPLOYEE, new EmployeeView());
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+            putRequestScope(AttributeConst.EMPLOYEE, new EmployeeView());
 
-        //新規登録画面を表示
-        forward(ForwardConst.FW_EMP_NEW);
+            //新規登録画面を表示
+            forward(ForwardConst.FW_EMP_NEW);
+        }
     }
-    //    }
 
     /**
      * 新規登録を行う
@@ -307,7 +307,8 @@ public class EmployeeAction extends ActionBase {
      * @throws ServletException
      * @throws IOException
      */
-    private void index(List<EmployeeView> employees, long employeeCount, int page) throws ServletException, IOException {
+    private void index(List<EmployeeView> employees, long employeeCount, int page)
+            throws ServletException, IOException {
 
         putRequestScope(AttributeConst.EMPLOYEES, employees); //取得した従業員データ
         putRequestScope(AttributeConst.EMP_COUNT, employeeCount); //全ての従業員データの件数

@@ -52,7 +52,7 @@ public class ReportAction extends ActionBase {
         //ログイン中の従業員を取得
         EmployeeView ev = getSessionScope(AttributeConst.LOGIN_EMP);
 
-        putRequestScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue());
+        putSessionScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue());
 
         //承認済みの日報データを取得
         List<ReportView> reports = service.getPerPageByDepartment(ev.getDepartment(), page);
@@ -73,7 +73,7 @@ public class ReportAction extends ActionBase {
         //指定されたページ数の一覧画面に表示する日報データを取得
         int page = getPage();
 
-        putRequestScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_ALL.getIntegerValue());
+        putSessionScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_ALL.getIntegerValue());
 
         //承認済みの日報データを取得
         List<ReportView> reports = service.getAllPerPage(page);
@@ -104,7 +104,7 @@ public class ReportAction extends ActionBase {
 
         //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
         if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
-            List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition(), ev.getDepartment());
+            List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev);
             putRequestScope(AttributeConst.EMPLOYEE_SUPERIORS, superiorList);
         }
 
@@ -167,7 +167,7 @@ public class ReportAction extends ActionBase {
 
                 //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
                 if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
-                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition(), ev.getDepartment());
+                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev);
                     putRequestScope(AttributeConst.EMPLOYEE_SUPERIORS, superiorList);
                 }
 
@@ -237,7 +237,7 @@ public class ReportAction extends ActionBase {
 
                 //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
                 if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
-                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition(), ev.getDepartment());
+                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev);
                     putRequestScope(AttributeConst.EMPLOYEE_SUPERIORS, superiorList);
                 }
 
@@ -305,7 +305,7 @@ public class ReportAction extends ActionBase {
 
                 //ログイン中の従業員が部長以外の場合は、承認者のリストをリクエストスコープにセットする
                 if (ev.getPosition() != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()) {
-                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev.getPosition(), ev.getDepartment());
+                    List<EmployeeView> superiorList = new EmployeeService().getSuperiorEmp(ev);
                     putRequestScope(AttributeConst.EMPLOYEE_SUPERIORS, superiorList);
                 }
 

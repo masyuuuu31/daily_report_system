@@ -161,7 +161,7 @@ public class EmployeeConverter {
             switch (e.getDivision()) {
 
             case 1:
-                division = AttributeConst.DEP_DIV_FIFTH.getIntegerValue();
+                division = AttributeConst.DEP_DIV_FIRST.getIntegerValue();
                 break;
 
             case 2:

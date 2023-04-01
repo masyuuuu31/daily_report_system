@@ -48,7 +48,7 @@
     value="${_token}" />
 
 <c:choose>
-    <c:when test="${login_employee.position != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()}">
+    <c:when test="${sessionScope.login_employee.position != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()}">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-light btn-outline-dark"
             data-bs-toggle="modal" data-bs-target="#staticBackdrop">登録</button>
