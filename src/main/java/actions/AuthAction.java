@@ -82,6 +82,7 @@ public class AuthAction extends ActionBase {
                 putSessionScope(AttributeConst.LOGIN_EMP, ev);
                 //セッションにログイン完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_LOGINED.getMessage());
+
                 //トップページへリダイレクト
                 redirect(ForwardConst.ACT_TOP, ForwardConst.CMD_INDEX);
             }

@@ -11,6 +11,7 @@
 <c:set var="actPet" value="${ForwardConst.ACT_PET.getValue()}" />
 
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
+<c:set var="commIdxDep" value="${ForwardConst.CMD_INDEX_DEP.getValue()}" />
 <c:set var="commOut" value="${ForwardConst.CMD_LOGOUT.getValue()}" />
 
 <!DOCTYPE html>
@@ -39,9 +40,9 @@
                 <c:if test="${sessionScope.login_employee != null}">
                     <c:if
                         test="${sessionScope.login_employee.adminFlag == AttributeConst.ROLE_ADMIN.getIntegerValue()}">
-                        <a href="<c:url value='?action=${actEmp}&command=${commIdx}' />">従業員管理</a>&nbsp;
+                        <a href="<c:url value='?action=${actEmp}&command=${commIdxDep}' />">従業員管理</a>&nbsp;
                     </c:if>
-                    <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">日報管理</a>&nbsp;
+                    <a href="<c:url value='?action=${actRep}&command=${commIdxDep}' />">日報管理</a>&nbsp;
                     <c:if
                         test="${sessionScope.login_employee.position != AttributeConst.DEP_POS_NORMAL.getIntegerValue()}" >
                         <a href="<c:url value='?action=${actPet}&command=${commIdx}' />">申請管理</a>&nbsp;

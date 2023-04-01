@@ -12,6 +12,11 @@ public enum AttributeConst {
     //一覧画面共通
     MAX_ROW("maxRow"),
     PAGE("page"),
+    VIEW_SELECT("view_select"),
+
+    //一覧画面表示フラグ
+    VIEW_GET_DEPARTMENT(0),
+    VIEW_GET_ALL(1),
 
     //入力フォーム共通
     TOKEN("_token"),

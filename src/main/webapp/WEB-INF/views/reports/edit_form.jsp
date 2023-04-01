@@ -40,10 +40,10 @@
 <br>
 <textarea name="${AttributeConst.REP_CONTENT.getValue()}"
     id="${AttributeConst.REP_CONTENT.getValue()}" rows="10" cols="50">${report.content}</textarea>
-<br>
 
 <c:if
     test="${login_employee.position != AttributeConst.DEP_POS_GENERAL_MANAGER.getIntegerValue()}">
+    <br>
     <label for="${AttributeConst.EMPLOYEE_SUPERIOR.getValue()}">承認者</label>
     <br>
     <select name="${AttributeConst.EMPLOYEE_SUPERIOR.getValue()}" id="${AttributeConst.EMPLOYEE_SUPERIOR.getValue()}" >

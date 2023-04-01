@@ -171,3 +171,7 @@ pre {
 h3 {
     font-size: larger;
 }
+
+div .btn-group {
+    margin-bottom: 20px;
+}

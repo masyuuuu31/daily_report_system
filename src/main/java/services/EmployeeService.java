@@ -43,6 +43,35 @@ public class EmployeeService extends ServiceBase {
     }
 
     /**
+     * 所属部署を条件に指定されたページ数の一覧画面に表示するデータを取得し、EmployeeViewのリストで返却する
+     * @param page ページ数
+     * @param department 所属部署
+     * @return 表示するデータのリスト
+     */
+    public List<EmployeeView> getPerPageByDepartment(Integer department, int page) {
+        List<Employee> employees = em.createNamedQuery(JpaConst.Q_EMP_GET_BY_DEPARTMENT_ALL, Employee.class)
+                .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, department)
+                .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+                .setMaxResults(JpaConst.ROW_PER_PAGE)
+                .getResultList();
+
+        return EmployeeConverter.toViewList(employees);
+    }
+
+    /**
+     * 所属部署を条件に従業員テーブルのデータの件数を取得し、返却する
+     * @param department 所属部署
+     * @return 従業員テーブルのデータの件数
+     */
+    public long countByDepartment(Integer department) {
+        long empCount = (long) em.createNamedQuery(JpaConst.Q_EMP_COUNT_BY_DEPARTMENT, Long.class)
+                .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, department)
+                .getSingleResult();
+
+        return empCount;
+    }
+
+    /**
      * 社員番号、パスワードを条件に取得したデータをEmployeeViewのインスタンスで返却する
      * @param code 社員番号
      * @param plainPass パスワード文字列
@@ -226,7 +255,7 @@ public class EmployeeService extends ServiceBase {
      * @param ログイン中の従業員の役職
      * @return 役職が上長の従業員テーブルのデータリスト
      */
-    public List<EmployeeView> getSuperiorEmp(int position) {
+    public List<EmployeeView> getSuperiorEmp(int position, Integer department) {
 
         List<Employee> employees = null;
 
@@ -235,17 +264,21 @@ public class EmployeeService extends ServiceBase {
 
         case 1:
             employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_SUPERIOR, Employee.class)
+            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, department)
             .getResultList();
             break;
 
         case 2:
             employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_GM_AND_MANAGER, Employee.class)
+            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, department)
             .getResultList();
             break;
 
         case 3:
             employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_GM, Employee.class)
+            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, department)
             .getResultList();
+            break;
         }
 
 

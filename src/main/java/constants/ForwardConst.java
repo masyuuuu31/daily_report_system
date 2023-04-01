@@ -18,6 +18,8 @@ public enum ForwardConst {
     CMD("command"),
     CMD_NONE(""),
     CMD_INDEX("index"),
+    CMD_INDEX_DEP("indexDep"),
+    CMD_INDEX_ALL("indexAll"),
     CMD_SHOW("show"),
     CMD_SHOW_LOGIN("showLogin"),
     CMD_LOGIN("login"),

@@ -6,7 +6,7 @@
 <%@ page import="constants.AttributeConst"%>
 
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
-<c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
+<c:set var="commIdx" value="${ForwardConst.CMD_INDEX_DEP.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">

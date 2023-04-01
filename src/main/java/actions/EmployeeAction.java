@@ -36,35 +36,49 @@ public class EmployeeAction extends ActionBase {
     }
 
     /**
-     * 一覧画面を表示する
+     * ログインしている従業員と同じ部署の従業員データを取得しindexを呼び出す
      * @throws ServletException
      * @throws IOException
      */
-    public void index() throws ServletException, IOException {
+    public void indexDep() throws ServletException, IOException {
 
         //管理者かどうかのチェック
         if (checkAdmin()) {
+
+            EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+            //指定されたページ数の一覧画面に表示するデータを取得
+            int page = getPage();
+            List<EmployeeView> employees = service.getPerPageByDepartment(ev.getDepartment(), page);
+
+            //従業員データの件数を取得
+            long employeeCount = service.countByDepartment(ev.getDepartment());
+
+            putRequestScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue());
+
+            index(employees, employeeCount, page);
+        }
+    }
+
+    /**
+     * 全ての従業員データを取得しindexを呼び出す
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void indexAll() throws ServletException, IOException {
+
+        //管理者かどうかのチェック
+        if (checkAdmin()) {
+
             //指定されたページ数の一覧画面に表示するデータを取得
             int page = getPage();
             List<EmployeeView> employees = service.getPerPage(page);
 
-            //全ての従業員データの件数を取得
+            //従業員データの件数を取得
             long employeeCount = service.countAll();
 
-            putRequestScope(AttributeConst.EMPLOYEES, employees); //取得した従業員データ
-            putRequestScope(AttributeConst.EMP_COUNT, employeeCount); //全ての従業員データの件数
-            putRequestScope(AttributeConst.PAGE, page); //ページ数
-            putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
+            putRequestScope(AttributeConst.VIEW_SELECT, AttributeConst.VIEW_GET_ALL.getIntegerValue());
 
-            //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
-            String flush = getSessionScope(AttributeConst.FLUSH);
-            if (flush != null) {
-                putRequestScope(AttributeConst.FLUSH, flush);
-                removeSessionScope(AttributeConst.FLUSH);
-            }
-
-            //一覧画面を表示
-            forward(ForwardConst.FW_EMP_INDEX);
+            index(employees, employeeCount, page);
         }
     }
 
@@ -76,15 +90,15 @@ public class EmployeeAction extends ActionBase {
     public void entryNew() throws ServletException, IOException {
 
         //管理者かどうかのチェック
-//        if (checkAdmin()) {
+        //        if (checkAdmin()) {
 
-            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-            putRequestScope(AttributeConst.EMPLOYEE, new EmployeeView());
+        putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+        putRequestScope(AttributeConst.EMPLOYEE, new EmployeeView());
 
-            //新規登録画面を表示
-            forward(ForwardConst.FW_EMP_NEW);
-        }
-//    }
+        //新規登録画面を表示
+        forward(ForwardConst.FW_EMP_NEW);
+    }
+    //    }
 
     /**
      * 新規登録を行う
@@ -133,7 +147,7 @@ public class EmployeeAction extends ActionBase {
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
                 //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_EMP, ForwardConst.CMD_INDEX);
+                redirect(ForwardConst.ACT_EMP, ForwardConst.CMD_INDEX_DEP);
             }
         }
     }
@@ -238,7 +252,7 @@ public class EmployeeAction extends ActionBase {
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
 
                 //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_EMP, ForwardConst.CMD_INDEX);
+                redirect(ForwardConst.ACT_EMP, ForwardConst.CMD_INDEX_DEP);
             }
         }
     }
@@ -260,7 +274,7 @@ public class EmployeeAction extends ActionBase {
             putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());
 
             //一覧画面にリダイレクト
-            redirect(ForwardConst.ACT_EMP, ForwardConst.CMD_INDEX);
+            redirect(ForwardConst.ACT_EMP, ForwardConst.CMD_INDEX_DEP);
         }
     }
 
@@ -285,6 +299,30 @@ public class EmployeeAction extends ActionBase {
 
             return true;
         }
+
+    }
+
+    /**
+     * 一覧画面を表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void index(List<EmployeeView> employees, long employeeCount, int page) throws ServletException, IOException {
+
+        putRequestScope(AttributeConst.EMPLOYEES, employees); //取得した従業員データ
+        putRequestScope(AttributeConst.EMP_COUNT, employeeCount); //全ての従業員データの件数
+        putRequestScope(AttributeConst.PAGE, page); //ページ数
+        putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
+
+        //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
+        String flush = getSessionScope(AttributeConst.FLUSH);
+        if (flush != null) {
+            putRequestScope(AttributeConst.FLUSH, flush);
+            removeSessionScope(AttributeConst.FLUSH);
+        }
+
+        //一覧画面を表示
+        forward(ForwardConst.FW_EMP_INDEX);
 
     }
 }

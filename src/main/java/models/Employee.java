@@ -44,6 +44,12 @@ import lombok.Setter;
     @NamedQuery(
             name = JpaConst.Q_EMP_GET_ALL_GM_AND_MANAGER,
             query = JpaConst.Q_EMP_GET_ALL_GM_AND_MANAGER_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_EMP_GET_BY_DEPARTMENT_ALL,
+            query = JpaConst.Q_EMP_GET_BY_DEPARTMENT_ALL_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_EMP_COUNT_BY_DEPARTMENT,
+            query = JpaConst.Q_EMP_COUNT_BY_DEPARTMENT_DEF)
 })
 
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)

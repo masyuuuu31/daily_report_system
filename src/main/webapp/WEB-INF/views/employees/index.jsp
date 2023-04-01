@@ -6,7 +6,8 @@
 <c:set var="actEmp" value="${ForwardConst.ACT_EMP.getValue()}" />
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
-<c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
+<c:set var="commIdxDep" value="${ForwardConst.CMD_INDEX_DEP.getValue()}" />
+<c:set var="commIdxAll" value="${ForwardConst.CMD_INDEX_ALL.getValue()}" />
 
 <c:import url="../layout/app.jsp">
     <c:param name="content">
@@ -16,6 +17,32 @@
             </div>
         </c:if>
         <h2>従業員　一覧</h2>
+
+        <div class="btn-group">
+          <a href="<c:url value='?action=${actEmp}&command=${commIdxDep}' />"
+            class="btn btn-outline-secondary <c:if test='${view_select == AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue()}'>active</c:if>">
+                <c:choose>
+                    <c:when test="${sessionScope.login_employee.department == AttributeConst.DEP_SALES.getIntegerValue()}">
+                        営業部
+                    </c:when>
+                    <c:when test="${sessionScope.login_employee.department == AttributeConst.DEP_HUMAN_RESOURCES.getIntegerValue()}">
+                        人事部
+                    </c:when>
+                    <c:when test="${sessionScope.login_employee.department == AttributeConst.DEP_INFORMATION_SYSTEMS.getIntegerValue()}">
+                        情報システム部
+                    </c:when>
+                    <c:when test="${sessionScope.login_employee.department == AttributeConst.DEP_GENERAL.getIntegerValue()}">
+                        総務部
+                    </c:when>
+                    <c:when test="${sessionScope.login_employee.department == AttributeConst.DEP_ACCOUNTING.getIntegerValue()}">
+                        経理部
+                    </c:when>
+                </c:choose>
+          </a>
+          <a href="<c:url value='?action=${actEmp}&command=${commIdxAll}' />" class="btn btn-outline-secondary
+          <c:if test='${view_select == AttributeConst.VIEW_GET_ALL.getIntegerValue()}'>active</c:if>">全部署</a>
+        </div>
+
         <table id="employee_list">
             <tbody>
                 <tr>
@@ -50,7 +77,14 @@
                         <c:out value="${i}" />&nbsp;
                     </c:when>
                     <c:otherwise>
-                        <a href="<c:url value='?action=${actEmp}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                        <c:choose>
+                            <c:when test="${view_select == AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue()}">
+                                <a href="<c:url value='?action=${actEmp}&command=${commIdxDep}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                            </c:when>
+                            <c:otherwise>
+                                <a href="<c:url value='?action=${actEmp}&command=${commIdxAll}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                            </c:otherwise>
+                        </c:choose>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>

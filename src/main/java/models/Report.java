@@ -42,6 +42,14 @@ import lombok.Setter;
     @NamedQuery(
             name = JpaConst.Q_REP_COUNT_ALL_MINE,
             query = JpaConst.Q_REP_COUNT_ALL_MINE_DEF
+            ),
+    @NamedQuery(
+            name = JpaConst.Q_REP_GET_BY_DEPARTMENT_ALL,
+            query = JpaConst.Q_REP_GET_BY_DEPARTMENT_ALL_DEF
+            ),
+    @NamedQuery(
+            name = JpaConst.Q_REP_COUNT_BY_DEPARTMENT,
+            query = JpaConst.Q_REP_COUNT_BY_DEPARTMENT_DEF
             )
 })
 

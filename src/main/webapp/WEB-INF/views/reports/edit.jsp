@@ -13,7 +13,7 @@
         </form>
 
         <p>
-            <a href="<c:url value='?action=${actRep}&command=index' />">一覧に戻る</a>
+            <a href="<c:url value='?action=${actRep}&command=indexDep' />">一覧に戻る</a>
         </p>
     </c:param>
 </c:import>
