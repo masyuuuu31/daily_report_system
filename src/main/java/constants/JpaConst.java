@@ -92,6 +92,7 @@ public interface JpaConst {
     String JPQL_PARM_PASSWORD = "password"; //パスワード
     String JPQL_PARM_EMPLOYEE = "employee"; //従業員
     String JPQL_PARM_DEPARTMENT = "department"; //部署
+    String JPQL_PARM_DIVISION = "division"; //ユニット
     String JPQL_PARM_REPORT = "report"; //日報
 
     //NamedQueryの nameとquery
@@ -114,15 +115,19 @@ public interface JpaConst {
     //指定した社員番号を保持する従業員の件数を取得する
     String Q_EMP_COUNT_REGISTERED_BY_CODE = ENTITY_EMP + ".countRegisteredByCode";
     String Q_EMP_COUNT_REGISTERED_BY_CODE_DEF = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :" + JPQL_PARM_CODE;
+
+
     //承認者の一覧を取得する
     String Q_EMP_GET_ALL_SUPERIOR = ENTITY_EMP + ".getAllSuperior";
-    String Q_EMP_GET_ALL_SUPERIOR_DEF = "SELECT e FROM Employee AS e WHERE e.position > 1 AND e.department = :" + JPQL_PARM_DEPARTMENT + " ORDER BY e.id DESC";
+    String Q_EMP_GET_ALL_SUPERIOR_DEF = "SELECT e FROM Employee AS e WHERE e.department = :" + JPQL_PARM_DEPARTMENT + " AND (e.position = 4 OR (e.position BETWEEN 2 AND 3 AND e.division = :" + JPQL_PARM_DIVISION + ")) ORDER BY e.id DESC";
     //部長のみ
     String Q_EMP_GET_ALL_GM = ENTITY_EMP + ".getAllGM";
     String Q_EMP_GET_ALL_GM_DEF = "SELECT e FROM Employee AS e WHERE e.position = 4 AND e.department = :" + JPQL_PARM_DEPARTMENT + " ORDER BY e.id DESC";
-    //課長以上
+    //課長
     String Q_EMP_GET_ALL_GM_AND_MANAGER = ENTITY_EMP + ".getAllGMAndManager";
-    String Q_EMP_GET_ALL_GM_AND_MANAGER_DEF = "SELECT e FROM Employee AS e WHERE e.position > 2 AND e.department = :" + JPQL_PARM_DEPARTMENT +  " ORDER BY e.id DESC";
+    String Q_EMP_GET_ALL_GM_AND_MANAGER_DEF = "SELECT e FROM Employee AS e WHERE e.department = :" + JPQL_PARM_DEPARTMENT + " AND (e.position = 4 OR (e.position = 3 AND e.division = :" + JPQL_PARM_DIVISION + ")) ORDER BY e.id DESC";
+
+
     //日報についてのNamedQuery
     //承認済みの全ての日報をidの降順に取得する
     String Q_REP_GET_ALL = ENTITY_REP + ".getAll";

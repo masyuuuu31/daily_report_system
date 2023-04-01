@@ -255,28 +255,30 @@ public class EmployeeService extends ServiceBase {
      * @param ログイン中の従業員の役職
      * @return 役職が上長の従業員テーブルのデータリスト
      */
-    public List<EmployeeView> getSuperiorEmp(int position, Integer department) {
+    public List<EmployeeView> getSuperiorEmp(EmployeeView ev) {
 
         List<Employee> employees = null;
 
 
-        switch (position) {
+        switch (ev.getPosition()) {
 
         case 1:
             employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_SUPERIOR, Employee.class)
-            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, department)
+            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, ev.getDepartment())
+            .setParameter(JpaConst.JPQL_PARM_DIVISION, ev.getDivision())
             .getResultList();
             break;
 
         case 2:
             employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_GM_AND_MANAGER, Employee.class)
-            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, department)
+            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, ev.getDepartment())
+            .setParameter(JpaConst.JPQL_PARM_DIVISION, ev.getDivision())
             .getResultList();
             break;
 
         case 3:
             employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL_GM, Employee.class)
-            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, department)
+            .setParameter(JpaConst.JPQL_PARM_DEPARTMENT, ev.getDepartment())
             .getResultList();
             break;
         }
