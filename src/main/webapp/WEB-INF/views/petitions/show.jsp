@@ -57,7 +57,7 @@
             <input type="hidden" name="${AttributeConst.PET_ID.getValue()}"value="${petition.id}" />
             <input type="hidden" name="${AttributeConst.TOKEN.getValue()}"value="${_token}" />
         </form>
-        <br><br>
+        <br>
 
         <p>
             <a href="<c:url value='?action=${actPet}&command=${commIdx}' />">一覧に戻る</a>

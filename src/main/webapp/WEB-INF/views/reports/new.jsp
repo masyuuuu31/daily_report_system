@@ -17,14 +17,14 @@
         </form>
 
         <c:choose>
-            <c:when test="${sessionScope.view_select == AttributeConst.VIEW_GET_DEPARTMENT.getIntegerValue()}">
+            <c:when test="${sessionScope.view_select == AttributeConst.VIEW_GET_ALL.getIntegerValue()}">
                 <p>
-                    <a href="<c:url value='?action=${action}&command=${commIdxDep}' />">一覧に戻る</a>
+                    <a href="<c:url value='?action=${action}&command=${commIdxAll}' />">一覧に戻る</a>
                 </p>
             </c:when>
             <c:otherwise>
                 <p>
-                    <a href="<c:url value='?action=${action}&command=${commIdxAll}' />">一覧に戻る</a>
+                    <a href="<c:url value='?action=${action}&command=${commIdxDep}' />">一覧に戻る</a>
                 </p>
             </c:otherwise>
         </c:choose>
